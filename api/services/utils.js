@@ -1,6 +1,5 @@
-//import jwt from 'jsonwebtoken';
-
 const jwt = require('jsonwebtoken');
+const config = require('../config/config');
 
 const User = require('../models/User');
 
@@ -11,13 +10,13 @@ const generateToken = (user) => {
       first_name: user.first_name,
       last_name: user.last_name,
       email: user.email,
+      mobile: user.mobile,
+      user_oauth_provider: user.user_oauth_provider,
+      user_oauth_id: user.user_oauth_id,
       user_role: user.user_role,
       status: user.status,
     },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: '30d',
-    }
+    config.secret
   );
 };
 const generateOTP = (otp_length) => {
@@ -35,7 +34,7 @@ const isAuth = (req, res, next) => {
   if (authorization) {
     const token = authorization.slice(7, authorization.length); // Bearer XXXXXX
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
+    jwt.verify(token, config.secret, (err, decode) => {
       if (err) {
         res.status(401).send({ message: 'Invalid Token' });
       } else {

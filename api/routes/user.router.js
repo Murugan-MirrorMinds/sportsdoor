@@ -1,19 +1,22 @@
 const express = require('express');
 const router = express.Router();
+
 const {
-    loggedIn,
+    index,
+    getUserInfo,
+    profileUpdate,
+    profileImageUpdate,
+    changeEmail,
+    changePassword,
+    socialAccount
 } = require('../controllers/v1/user.controller');
 
-//router.get('/me',loggedIn, index);
-
-/* router.get('/', loggedIn, function(req, res, next) {
-    // req.user - will exist
-    // load user orders and render them
-     res.send('User Controller!')
-});
- */
-router.get('/', (req, res) => {
-    res.send('About User!')
-});
+router.get('/', index);
+router.get('/me', getUserInfo);
+router.post('/profile', profileUpdate);
+router.post('/profileimage', profileImageUpdate);
+router.post('/changeemail', changeEmail);
+router.post('/changepassword', changePassword);
+router.post('/socialaccount', socialAccount);
 
 module.exports = router;

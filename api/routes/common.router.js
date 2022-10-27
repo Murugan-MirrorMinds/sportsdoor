@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const {
-    Access,
-    getSports,
-} = require('../controllers/common.controller');
+    getsportCategories,
+    getsportFormats,
+    getsports
+} = require('../controllers/v1/common.controller');
 
-router.post('/Access', Access);
-router.get('/sports', getSports);
+router.get('/sportcategories', getsportCategories);
+router.get('/sportformats', getsportFormats);
+router.get('/sports', getsports);
+
 module.exports = router;

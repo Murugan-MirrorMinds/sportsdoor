@@ -2,24 +2,50 @@ const User = require('../../models/User');
 const config = require('../../config/config');
 const jwt = require('jsonwebtoken');
 
-function loggedIn(req, res) {
-    console.log(req.user);
-    if (req.user) {
-        console.log(req.user);
-    } else {
-        console.log("Go to Login");
-    }
+function index(req, res) {
+    
+    return res.json({ success: true, message:"Index" });
+
 }
 
-function index(req, res) {
-    let query = {};
+function getUserInfo(req, res) {
 
-    return res.json({ success: true, message:"User Controller" });
+    return res.json({ success: true, message:"Profile" });
+
+}
+function profileUpdate(req, res) {
+
+    return res.json({ success: true, message:"Profile Update" });
+
+}
+function profileImageUpdate(req, res) {
+
+    return res.json({ success: true, message:"Profile Image Update" });
+
+}
+function changeEmail(req, res) {
+
+    return res.json({ success: true, message:"ChangeEmail" });
+
+}
+function changePassword(req, res) {
+
+    return res.json({ success: true, message:"ChangePassword" });
+
+}
+function socialAccount(req, res) {
+
+    return res.json({ success: true, message:"SocialAccount" });
 
 }
 
 
 module.exports = {
-    loggedIn,
-    index
+    index,
+    getUserInfo,
+    profileUpdate,
+    profileImageUpdate,
+    changeEmail,
+    changePassword,
+    socialAccount
 }

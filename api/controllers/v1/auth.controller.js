@@ -15,6 +15,8 @@ const {
     getCryptedPassword
  } = require('../../utils/api.helpers');
 
+ const { generateToken } = require('../../services/utils');
+
 
 function createUserAccount(req, res) {
 
@@ -51,7 +53,9 @@ function createUserAccount(req, res) {
                     if (err) {
                         return res.status(400).send({ success: true, message: 'Server error!' });
                     }
-                    const token = jwt.sign(newUser.toJSON(), config.secret);
+                  //  const token = jwt.sign(newUser.toJSON(), config.secret);
+
+                    const token = generateToken(newUser);
 
                     let users = {};
 
@@ -76,7 +80,7 @@ function createUserAccount(req, res) {
                     })
 
                     if(token){
-                        Access_Tab.access_key = 'JWT '+ token;
+                        Access_Tab.access_key = token;
                         Access_Tab.user_id = newUser._id;
                         Access_Tab.access_status = 'Y';
                         Access_Tab.access_ip = ip.address();
@@ -127,7 +131,7 @@ function createUserAccount(req, res) {
                         };
 
                     } 
-                    return res.json({ users: users, success: true, token: 'JWT ' + token });
+                    return res.json({ users: users, success: true, token: token });
 
                 });
             }).catch((err) => {
@@ -173,7 +177,8 @@ function createUserAccountByOTP(req, res) {
                     if (err) {
                         return res.status(400).send({ success: true, message: 'Server error!' });
                     }
-                    const token = jwt.sign(newUser.toJSON(), config.secret);
+                   // const token = jwt.sign(newUser.toJSON(), config.secret);
+                   const token = generateToken(newUser);
 
                     let users = {};
 
@@ -200,7 +205,7 @@ function createUserAccountByOTP(req, res) {
                     const Access_Tab = new Access();
 
                     if(token){
-                        Access_Tab.access_key = 'JWT '+ token;
+                        Access_Tab.access_key = token;
                         Access_Tab.user_id = newUser._id;
                         Access_Tab.access_status = 'Y';
                         Access_Tab.access_ip = ip.address();
@@ -252,7 +257,7 @@ function createUserAccountByOTP(req, res) {
                         };
 
                     } 
-                    return res.json({ users: users, success: true, token: 'JWT ' + token });
+                    return res.json({ users: users, success: true, token: token });
 
                 });
             }).catch((err) => {
@@ -280,14 +285,16 @@ function createUserAccountSocialmedia(req, res) {
 
         User.find({ user_oauth_id: unique_id, user_oauth_provider: loginby, status: 'Y' }).then(user => {
             if (user.length > 0) {
-                        const token = jwt.sign(user.toJSON(), config.secret);
+                        //const token = jwt.sign(user.toJSON(), config.secret);
+
+                        const token = generateToken(user);
 
                         let users = {};
 
                         const Access_Tab = new Access();
 
                         if(token){
-                            Access_Tab.access_key = 'JWT '+ token;
+                            Access_Tab.access_key = token;
                             Access_Tab.user_id = user._id;
                             Access_Tab.access_status = 'Y';
                             Access_Tab.access_ip = ip.address();
@@ -341,14 +348,16 @@ function createUserAccountSocialmedia(req, res) {
                     if (err) {
                         return res.status(400).send({ success: true, message: 'Server error!' });
                     }
-                    const token = jwt.sign(newUser.toJSON(), config.secret);
+                    //const token = jwt.sign(newUser.toJSON(), config.secret);
+
+                    const token = generateToken(newUser);
 
                     let users = {};
 
                     const Access_Tab = new Access();
 
                     if(token){
-                        Access_Tab.access_key = 'JWT '+ token;
+                        Access_Tab.access_key = token;
                         Access_Tab.user_id = newUser._id;
                         Access_Tab.access_status = 'Y';
                         Access_Tab.access_ip = ip.address();
@@ -471,14 +480,16 @@ function userLogin(req, res, next) {
             if(user.status !== 'Y'){
                 return res.status(401).send({ success: false, message: ' Your account has been disabled or removed. Please contact admin' });
             }
-            const token = jwt.sign(user.toJSON(), config.secret);
+            //const token = jwt.sign(user.toJSON(), config.secret);
+
+            const token = generateToken(user);
 
             let users = {};
 
              const Access_Tab = new Access();
 
             if(token){
-                Access_Tab.access_key = 'JWT '+ token;
+                Access_Tab.access_key = token;
                 Access_Tab.user_id = user._id;
                 Access_Tab.access_status = 'Y';
                 Access_Tab.access_ip = ip.address();
@@ -549,14 +560,16 @@ function userLogin(req, res, next) {
                     return res.status(401).send({ success: false, message: 'Mobile number is not found' });
                 } else { 
                     
-                    const token = jwt.sign(user.toJSON(), config.secret);
+                   // const token = jwt.sign(user.toJSON(), config.secret);
+
+                   const token = generateToken(user);
 
                     let users = {};
 
                     const Access_Tab = new Access();
 
                     if(token){
-                        Access_Tab.access_key = 'JWT '+ token;
+                        Access_Tab.access_key = token;
                         Access_Tab.user_id = user._id;
                         Access_Tab.access_status = 'Y';
                         Access_Tab.access_ip = ip.address();
@@ -628,14 +641,16 @@ function userLogin(req, res, next) {
                     return res.status(401).send({ success: false, message: 'Account not registered yet' });
                 } else { 
                     
-                    const token = jwt.sign(user.toJSON(), config.secret);
+                    //const token = jwt.sign(user.toJSON(), config.secret);
+
+                    const token = generateToken(user);
 
                     let users = {};
 
                     const Access_Tab = new Access();
 
                     if(token){
-                        Access_Tab.access_key = 'JWT '+ token;
+                        Access_Tab.access_key = token;
                         Access_Tab.user_id = user._id;
                         Access_Tab.access_status = 'Y';
                         Access_Tab.access_ip = ip.address();
