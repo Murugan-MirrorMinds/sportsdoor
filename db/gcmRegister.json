@@ -1,0 +1,273 @@
+[{
+  "_id": {
+    "$oid": "6357d9191cc80051f99b50a6"
+  },
+  "gcm_id": "etrertwtwetwetrwetewtwe",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6357d9191cc80051f99b50a3"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666701593208"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666701593208"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6358d64b639a45d2522ab033"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6357d9191cc80051f99b50a3"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666766411981"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666766411981"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6358d72af49990082e564390"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6358d72af49990082e56438d"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666766634198"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666766634198"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6358d771f49990082e564399"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6358d771f49990082e564396"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666766705974"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666766705974"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6358d7d7f49990082e56439e"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6357bbbae2e5c74332fde190"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666766807857"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666766807857"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6358e0914bc61484b6329c0e"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6358e0914bc61484b6329c0b"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666769041966"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666769041966"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6358e16cb9db0b2ca62019fb"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6358e16cb9db0b2ca62019f8"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666769260149"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666769260149"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6358e23b344cbc4d795c1428"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6357d9191cc80051f99b50a3"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666769467162"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666769467162"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635932b52d1bf39363c88b5c"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "635932b52d1bf39363c88b59"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666790069360"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666790069360"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a16c66cdfae76679471c4"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6357d9191cc80051f99b50a3"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666848454209"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666848454209"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a2b8afb3d5f400d34d975"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6357d9191cc80051f99b50a3"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666853770989"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666853770989"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a2c6c611cf90fbd982247"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6357d9191cc80051f99b50a3"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666853996147"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666853996147"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635a4af70d04570cecd101c9"
+  },
+  "gcm_id": "",
+  "user_type": "A",
+  "gcm_status": "Y",
+  "user_id": {
+    "$oid": "6357d9191cc80051f99b50a3"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666861815698"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666861815698"
+    }
+  },
+  "__v": 0
+}]
