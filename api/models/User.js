@@ -59,14 +59,16 @@ const UserSchema = new Schema({
             type: String,
             default: ''
         },
-        latitude :{
-            type: String,
-            default: ''
-        },
-        longitude :{
-            type: String,
-            default: ''
-        },
+        location : {
+            latitude :{
+                type: String,
+                default: ''
+            },
+            longitude :{
+                type: String,
+                default: ''
+            },
+        }
   }
 ],
   gender: {
@@ -130,33 +132,7 @@ const UserSchema = new Schema({
   user_oauth_id: {
       type: String,
       default: ''
-  },
-  accounts: [{
-    google: {
-        type: Boolean,
-        default: false,
-    },
-    google_id :{
-      type: String,
-      default: ''
-    },
-    facebook: {
-        type: Boolean,
-        default: false,
-    },
-    facebook_id :{
-      type: String,
-      default: ''
-    },
-    apple: {
-        type: Boolean,
-        default: false,
-    },    
-    apple_id :{
-      type: String,
-      default: ''
-    },
-  }],
+  },  
   email_verify_code: {
       type: String,
       default: ''

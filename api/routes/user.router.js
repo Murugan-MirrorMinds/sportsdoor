@@ -8,15 +8,17 @@ const {
     profileImageUpdate,
     changeEmail,
     changePassword,
-    socialAccount
+    deleteAccount
 } = require('../controllers/v1/user.controller');
+
+const upload = require('../services/upload');
 
 router.get('/', index);
 router.get('/me', getUserInfo);
-router.post('/profile', profileUpdate);
-router.post('/profileimage', profileImageUpdate);
+router.put('/profile', profileUpdate);
+router.post('/profileimage', upload, profileImageUpdate);
 router.post('/changeemail', changeEmail);
 router.post('/changepassword', changePassword);
-router.post('/socialaccount', socialAccount);
+router.post('/deleteaccount', deleteAccount);
 
 module.exports = router;

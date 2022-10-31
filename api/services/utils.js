@@ -50,14 +50,12 @@ const isAuth = (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
   User.findById(req.userId).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-    /* if (user.user_role === 'admin') {
+    if (user.user_role === 'admin') {
+      req.user = user;
+      req.userId = user._id;
       next();
       return;
-    } */
+    } 
   });
 };
 
@@ -68,6 +66,8 @@ const isPlayer = (req, res, next) => {
       return;
     }
     if (user.user_role === 'user') {
+      req.user = user;
+      req.userId = user._id;
       next();
       return;
     }

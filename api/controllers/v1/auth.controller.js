@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 var md5 = require('md5');
 var ip = require('ip');
 const fs = require('fs');
+const path = require('path');
 /* ,generateOTP */
 const {
     sendCustomMail,
@@ -38,6 +39,8 @@ function createUserAccount(req, res) {
                 newUser.first_name = name;
                 newUser.mobile = mobile;
                 newUser.user_role = 'user';
+                newUser.address.location = '';
+                newUser.address.location = '';
                 var passwordSalt = genRandomPassword(32);
                 var userPassword = getCryptedPassword(password, passwordSalt);
                 newUser.password = userPassword + ':' + passwordSalt;
@@ -87,20 +90,19 @@ function createUserAccount(req, res) {
                     }
 
                     Access_Tab.save();
-
-                    gcmRegister.findOneAndUpdate({ gcm_id: gcmkey, gcm_status: 'D' },{ gcm_status : 'Y', user_id: newUser._id});
-
+                    
                     let gcmRegister_tab = new gcmRegister();
 
                     if(gcmRegister_tab){
                         gcmRegister_tab.user_id = newUser._id;
                         gcmRegister_tab.user_type = user_type;
+                        gcmRegister_tab.gcm_id = gcmkey;
                         gcmRegister_tab.gcm_status = 'Y';
                     }
                     gcmRegister_tab.save();
 
                     let rootdir = config.UPLOAD_DIR;
-                    let fpath = rootdir + '/' + newUser.profile;
+                    let fpath = rootdir + '/' + newUser.profile_image;
                     let filepath = fpath.replaceAll('\\', '/');
 
                     if(newUser){
@@ -110,7 +112,7 @@ function createUserAccount(req, res) {
                             lastName: newUser.last_name ? newUser.last_name : '',
                             email: newUser.email ? newUser.email : '',
                             mobile: newUser.mobile  ? newUser.mobile : '',
-                            image: newUser.profile  ? filepath : '',
+                            image: newUser.profile_image  ? filepath : '',
                             role: newUser.user_role  ? newUser.user_role : 'user',
                             gender: newUser.gender ? newUser.gender : '',
                             bio: newUser.bio  ? newUser.bio : '',
@@ -120,10 +122,12 @@ function createUserAccount(req, res) {
                                 state: newUser.address.state  ? newUser.address.state : '',
                                 country: newUser.address.country  ? newUser.address.country : 'India',
                                 zip: newUser.address.zip  ? newUser.address.zip : '',
-                                latitude: newUser.address.latitude  ? newUser.address.latitude : '',
-                                longitude: newUser.address.longitude  ? newUser.address.longitude : '',
+                                location: {                                    
+                                    latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
+                                    longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
+                                }
                             },
-                            loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'MANUAL',
+                            loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'EMAIL',
                             oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
                             mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
                             email_verify: newUser.email_verify  ? newUser.email_verify : false,
@@ -135,17 +139,17 @@ function createUserAccount(req, res) {
 
                 });
             }).catch((err) => {
-                fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+                fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
             });
 
      }).catch((err) => {
-        fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+        fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
         return res.status(400).send({ success: false, message: 'Server error 22' });
         
     });
 
     }).catch((err) => {
-         fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+         fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
         return res.status(400).send({ success: false, message: 'Server error 22' });
     });
 
@@ -170,7 +174,9 @@ function createUserAccountByOTP(req, res) {
                 const newUser = new User();                
                 newUser.mobile = mobile;
                 newUser.first_name = name;
-                newUser.user_role = 'user';
+                newUser.user_role = 'user';                
+                newUser.address.location = '';
+                newUser.address.location = '';
                 newUser.otp='1111';
                 
                 newUser.save((err) => {
@@ -199,7 +205,7 @@ function createUserAccountByOTP(req, res) {
                         sendCustomMail(username, toEmail, resultHtml, subject);
                         
                     }).catch((err) => {
-                        fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+                        fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
                     });
 
                     const Access_Tab = new Access();
@@ -213,20 +219,19 @@ function createUserAccountByOTP(req, res) {
 
                     Access_Tab.save();
 
-                    gcmRegister.findOneAndUpdate({ gcm_id: gcmkey, gcm_status: 'D' },{ gcm_status : 'Y', user_id: newUser._id});
-
                     let gcmRegister_tab = new gcmRegister();
 
                     if(gcmRegister_tab){
                         gcmRegister_tab.user_id = newUser._id;
                         gcmRegister_tab.user_type = user_type;
+                        gcmRegister_tab.gcm_id = gcmkey;
                         gcmRegister_tab.gcm_status = 'Y';
                     }
                     gcmRegister_tab.save();
                     
 
                     let rootdir = config.UPLOAD_DIR;
-                    let fpath = rootdir + '/' + newUser.profile;
+                    let fpath = rootdir + '/' + newUser.profile_image;
                     let filepath = fpath.replaceAll('\\', '/');
 
                     if(newUser){
@@ -236,7 +241,7 @@ function createUserAccountByOTP(req, res) {
                             lastName: newUser.last_name ? newUser.last_name : '',
                             email: newUser.email ? newUser.email : '',
                             mobile: newUser.mobile  ? newUser.mobile : '',
-                            image: newUser.profile  ? filepath : '',
+                            image: newUser.profile_image  ? filepath : '',
                             role: newUser.user_role  ? newUser.user_role : 'user',
                             gender: newUser.gender ? newUser.gender : '',
                             bio: newUser.bio  ? newUser.bio : '',
@@ -246,10 +251,12 @@ function createUserAccountByOTP(req, res) {
                                 state: newUser.address.state  ? newUser.address.state : '',
                                 country: newUser.address.country  ? newUser.address.country : 'India',
                                 zip: newUser.address.zip  ? newUser.address.zip : '',
-                                latitude: newUser.address.latitude  ? newUser.address.latitude : '',
-                                longitude: newUser.address.longitude  ? newUser.address.longitude : '',
+                                location: {                                    
+                                    latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
+                                    longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
+                                }
                             },
-                            loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'MANUAL',
+                            loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'MOBILE',
                             oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
                             mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
                             email_verify: newUser.email_verify  ? newUser.email_verify : false,
@@ -261,11 +268,11 @@ function createUserAccountByOTP(req, res) {
 
                 });
             }).catch((err) => {
-                fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+                fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
             });
 
      }).catch((err) => {
-        fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+        fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
         return res.status(400).send({ success: false, message: 'Server error 22' });
     });
 
@@ -303,7 +310,7 @@ function createUserAccountSocialmedia(req, res) {
                         Access_Tab.save();
 
                         let rootdir = config.UPLOAD_DIR;
-                        let fpath = rootdir + '/' + user.profile;
+                        let fpath = rootdir + '/' + user.profile_image;
                         let filepath = fpath.replaceAll('\\', '/');
 
                         if(user){
@@ -313,7 +320,7 @@ function createUserAccountSocialmedia(req, res) {
                                 lastName: user.last_name ? user.last_name : '',
                                 email: user.email ? user.email : '',
                                 mobile: user.mobile  ? user.mobile : '',
-                                image: user.profile  ? filepath : '',
+                                image: user.profile_image  ? filepath : '',
                                 role: user.user_role  ? user.user_role : 'user',
                                 gender: user.gender ? user.gender : '',
                                 bio: user.bio  ? user.bio : '',
@@ -323,10 +330,12 @@ function createUserAccountSocialmedia(req, res) {
                                     state: user.address.state  ? user.address.state : '',
                                     country: user.address.country  ? user.address.country : 'India',
                                     zip: user.address.zip  ? user.address.zip : '',
-                                    latitude: user.address.latitude  ? user.address.latitude : '',
-                                    longitude: user.address.longitude  ? user.address.longitude : '',
+                                    location: {                                    
+                                        latitude: user.address.location.latitude  ? user.address.location.latitude : '',
+                                        longitude: user.address.location.longitude  ? user.address.location.longitude : '',
+                                    }
                                 },
-                                loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'MANUAL',
+                                loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'SOCIALMEDIA',
                                 oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
                                 mobile_verify: user.otp_verify  ? user.otp_verify : false,
                                 email_verify: user.email_verify  ? user.email_verify : false,
@@ -334,7 +343,7 @@ function createUserAccountSocialmedia(req, res) {
                             };
 
                         }
-                        return res.json({ users: users, success: true, token: 'JWT ' + token });
+                        return res.json({ users: users, success: true, token: token });
 
         }else{
             let query = {};
@@ -365,20 +374,19 @@ function createUserAccountSocialmedia(req, res) {
 
                     Access_Tab.save();
 
-                    gcmRegister.findOneAndUpdate({ gcm_id: gcmkey, gcm_status: 'D' },{ gcm_status : 'Y', user_id: newUser._id});
-
                     let gcmRegister_tab = new gcmRegister();
 
                     if(gcmRegister_tab){
                         gcmRegister_tab.user_id = newUser._id;
                         gcmRegister_tab.user_type = user_type;
+                        gcmRegister_tab.gcm_id = gcmkey;
                         gcmRegister_tab.gcm_status = 'Y';
                     }
                     gcmRegister_tab.save();
                     
 
                     let rootdir = config.UPLOAD_DIR;
-                    let fpath = rootdir + '/' + newUser.profile;
+                    let fpath = rootdir + '/' + newUser.profile_image;
                     let filepath = fpath.replaceAll('\\', '/');
 
                     if(newUser){
@@ -388,7 +396,7 @@ function createUserAccountSocialmedia(req, res) {
                             lastName: newUser.last_name ? newUser.last_name : '',
                             email: newUser.email ? newUser.email : '',
                             mobile: newUser.mobile  ? newUser.mobile : '',
-                            image: newUser.profile  ? filepath : '',
+                            image: newUser.profile_image  ? filepath : '',
                             role: newUser.user_role  ? newUser.user_role : 'user',
                             gender: newUser.gender ? newUser.gender : '',
                             bio: newUser.bio  ? newUser.bio : '',
@@ -398,10 +406,12 @@ function createUserAccountSocialmedia(req, res) {
                                 state: newUser.address.state  ? newUser.address.state : '',
                                 country: newUser.address.country  ? newUser.address.country : 'India',
                                 zip: newUser.address.zip  ? newUser.address.zip : '',
-                                latitude: newUser.address.latitude  ? newUser.address.latitude : '',
-                                longitude: newUser.address.longitude  ? newUser.address.longitude : '',
+                                location: {                                    
+                                    latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
+                                    longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
+                                }
                             },
-                            loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'MANUAL',
+                            loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'EMAIL',
                             oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
                             mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
                             email_verify: newUser.email_verify  ? newUser.email_verify : false,
@@ -409,17 +419,17 @@ function createUserAccountSocialmedia(req, res) {
                         };
 
                     } 
-                    return res.json({ users: users, success: true, token: 'JWT ' + token });
+                    return res.json({ users: users, success: true, token: token });
 
                 });
             }).catch((err) => {
-                fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+                fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
             });
         }
         
 
      }).catch((err) => {
-        fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+        fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
         return res.status(400).send({ success: false, message: 'Account already registered' });
     });
     }else {
@@ -438,7 +448,7 @@ function checkAuthentication(req, res, next) {
                 return res.status(200).send(accounts);
             })
             .catch(err => {
-                fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+                fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
                 if (err.status === 404) res.status(404).send({ success: false, message: err.msg });
                 else return next({ success: false, status: 500, message: 'server error' });
             });
@@ -496,20 +506,26 @@ function userLogin(req, res, next) {
             }
 
             Access_Tab.save();
+            let updateData = {};
+            updateData.gcm_status = 'D';
 
-            gcmRegister.findOneAndUpdate({ gcm_id: gcmkey, gcm_status: 'D' },{ gcm_status : 'Y', user_id: user._id});
+            gcmRegister.findOneAndUpdate({ gcm_id: gcmkey, gcm_status: 'Y', user_id:user._id }, { $set: updateData })            
+            .then(() => {
+                console.log('GCM Removed temporarily!');
+            });
 
             let gcmRegister_tab = new gcmRegister();
 
             if(gcmRegister_tab){
                 gcmRegister_tab.user_id = user._id;
                 gcmRegister_tab.user_type = user_type;
+                gcmRegister_tab.gcm_id = gcmkey;
                 gcmRegister_tab.gcm_status = 'Y';
             }
             gcmRegister_tab.save();
 
             let rootdir = config.UPLOAD_DIR;
-            let fpath = rootdir + '/' + user.profile;
+            let fpath = rootdir + '/' + user.profile_image;
             let filepath = fpath.replaceAll('\\', '/');
 
             if(user){
@@ -519,7 +535,7 @@ function userLogin(req, res, next) {
                     lastName: user.last_name ? user.last_name : '',
                     email: user.email ? user.email : '',
                     mobile: user.mobile  ? user.mobile : '',
-                    image: user.profile  ? filepath : '',
+                    image: user.profile_image  ? filepath : '',
                     role: user.user_role  ? user.user_role : 'user',
                     gender: user.gender ? user.gender : '',
                     bio: user.bio  ? user.bio : '',
@@ -529,10 +545,12 @@ function userLogin(req, res, next) {
                       state: user.address.state  ? user.address.state : '',
                       country: user.address.country  ? user.address.country : 'India',
                       zip: user.address.zip  ? user.address.zip : '',
-                      latitude: user.address.latitude  ? user.address.latitude : '',
-                      longitude: user.address.longitude  ? user.address.longitude : '',
+                      location: {                                    
+                            latitude: user.address.location  ? (user.address.location.latitude)?user.address.location.latitude:'' : '',
+                            longitude: user.address.location  ? (user.address.location.longitude)?user.address.location.longitude:'' : '',
+                        }
                     },
-                    loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'MANUAL',
+                    loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'EMAIL',
                     oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
                     mobile_verify: user.otp_verify  ? user.otp_verify : false,
                     email_verify: user.email_verify  ? user.email_verify : false,
@@ -540,7 +558,7 @@ function userLogin(req, res, next) {
                   };
 
             }
-            return res.json({ users: users, success: true, token: 'JWT ' + token });
+            return res.json({ users: users, success: true, token: token });
         }
     });
         }else {
@@ -576,20 +594,26 @@ function userLogin(req, res, next) {
                     }
 
                     Access_Tab.save();
+                    let updateData = {};
+                    updateData.gcm_status = 'D';
 
-                    gcmRegister.findOneAndUpdate({ gcm_id: gcmkey, gcm_status: 'D' },{ gcm_status : 'Y', user_id: user._id});
+                    gcmRegister.findOneAndUpdate({ gcm_id: gcmkey, gcm_status: 'Y', user_id:user._id }, { $set: updateData })            
+                    .then(() => {
+                        console.log('GCM Removed temporarily!');
+                    });
 
                     let gcmRegister_tab = new gcmRegister();
 
                     if(gcmRegister_tab){
                         gcmRegister_tab.user_id = user._id;
                         gcmRegister_tab.user_type = user_type;
+                        gcmRegister_tab.gcm_id = gcmkey;
                         gcmRegister_tab.gcm_status = 'Y';
                     }
                     gcmRegister_tab.save();
 
                     let rootdir = config.UPLOAD_DIR;
-                    let fpath = rootdir + '/' + user.profile;
+                    let fpath = rootdir + '/' + user.profile_image;
                     let filepath = fpath.replaceAll('\\', '/');
 
                     if(user){
@@ -599,20 +623,22 @@ function userLogin(req, res, next) {
                             lastName: user.last_name ? user.last_name : '',
                             email: user.email ? user.email : '',
                             mobile: user.mobile  ? user.mobile : '',
-                            image: user.profile  ? filepath : '',
+                            image: user.profile_image  ? filepath : '',
                             role: user.user_role  ? user.user_role : 'user',
                             gender: user.gender ? user.gender : '',
                             bio: user.bio  ? user.bio : '',
                             address: {
-                            address1: user.address.address1  ? user.address.address1 : '',
-                            city: user.address.city  ? user.address.city : '',
-                            state: user.address.state  ? user.address.state : '',
-                            country: user.address.country  ? user.address.country : 'India',
-                            zip: user.address.zip  ? user.address.zip : '',
-                            latitude: user.address.latitude  ? user.address.latitude : '',
-                            longitude: user.address.longitude  ? user.address.longitude : '',
+                                address1: user.address.address1  ? user.address.address1 : '',
+                                city: user.address.city  ? user.address.city : '',
+                                state: user.address.state  ? user.address.state : '',
+                                country: user.address.country  ? user.address.country : 'India',
+                                zip: user.address.zip  ? user.address.zip : '',
+                                location: {                                    
+                                    latitude: user.address.location  ? (user.address.location.latitude)?user.address.location.latitude:'' : '',
+                                    longitude: user.address.location  ? (user.address.location.longitude)?user.address.location.longitude:'' : '',
+                                }
                             },
-                            loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'MANUAL',
+                            loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'MOBILE',
                             oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
                             mobile_verify: user.otp_verify  ? user.otp_verify : false,
                             email_verify: user.email_verify  ? user.email_verify : false,
@@ -620,7 +646,7 @@ function userLogin(req, res, next) {
                         };
 
                     }
-                    return res.json({ users: users, success: true, token: 'JWT ' + token });
+                    return res.json({ users: users, success: true, token: token });
                 }
             });
 
@@ -658,19 +684,20 @@ function userLogin(req, res, next) {
 
                     Access_Tab.save();
 
-                    gcmRegister.findOneAndUpdate({ gcm_id: gcmkey, gcm_status: 'D' },{ gcm_status : 'Y', user_id: user._id});
+                    gcmRegister.updateOne({ gcm_id: gcmkey, gcm_status: 'Y',user_id: user._id },{ $set : { gcm_status : 'D'} });
 
                     let gcmRegister_tab = new gcmRegister();
 
                     if(gcmRegister_tab){
                         gcmRegister_tab.user_id = user._id;
                         gcmRegister_tab.user_type = user_type;
+                        gcmRegister_tab.gcm_id = gcmkey;
                         gcmRegister_tab.gcm_status = 'Y';
                     }
                     gcmRegister_tab.save();
 
                     let rootdir = config.UPLOAD_DIR;
-                    let fpath = rootdir + '/' + user.profile;
+                    let fpath = rootdir + '/' + user.profile_image;
                     let filepath = fpath.replaceAll('\\', '/');
 
                     if(user){
@@ -680,7 +707,7 @@ function userLogin(req, res, next) {
                             lastName: user.last_name ? user.last_name : '',
                             email: user.email ? user.email : '',
                             mobile: user.mobile  ? user.mobile : '',
-                            image: user.profile  ? filepath : '',
+                            image: user.profile_image  ? filepath : '',
                             role: user.user_role  ? user.user_role : 'user',
                             gender: user.gender ? user.gender : '',
                             bio: user.bio  ? user.bio : '',
@@ -690,10 +717,12 @@ function userLogin(req, res, next) {
                             state: user.address.state  ? user.address.state : '',
                             country: user.address.country  ? user.address.country : 'India',
                             zip: user.address.zip  ? user.address.zip : '',
-                            latitude: user.address.latitude  ? user.address.latitude : '',
-                            longitude: user.address.longitude  ? user.address.longitude : '',
+                            location: {                                    
+                                latitude: user.address.location  ? (user.address.location.latitude)?user.address.location.latitude:'' : '',
+                                longitude: user.address.location  ? (user.address.location.longitude)?user.address.location.longitude:'' : '',
+                            }
                             },
-                            loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'MANUAL',
+                            loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'SOCIALMEDIA',
                             oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
                             mobile_verify: user.otp_verify  ? user.otp_verify : false,
                             email_verify: user.email_verify  ? user.email_verify : false,
@@ -701,7 +730,7 @@ function userLogin(req, res, next) {
                         };
 
                     }
-                    return res.json({ users: users, success: true, token: 'JWT ' + token });
+                    return res.json({ users: users, success: true, token: token });
                 }
             });
 
@@ -749,16 +778,16 @@ function forgotPass(req, res, next) {
                                 sendCustomMail(username, toEmail, resultHtml, subject);
                                 return res.status(201).send({ success: true, message: 'Kindly check your email for further instructions' });
                             }).catch(err => {
-                              fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+                              fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
                                 return res.json({ success: true, message: err })
                             })
 
                     }).catch((err) => {
-                        fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+                        fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
                         return res.json({ success: false, message: 'server error sd' })
                     })
             }).catch(err => {
-                fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+                fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
                 if (err.status === 404) res.status(400).send({ success: false, message: err.msg });
                 else return next({ status: 500, message: 'server erro dsds r' });
             })
@@ -899,17 +928,30 @@ function resendOTP(req, res) {
                 sendCustomMail(username, toEmail, resultHtml, subject);
                 return res.status(201).send({ success: true, message: 'Kindly check your email for further instructions' });
             }).catch((err) => {
-                fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+                fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
                 return res.json({ success: true, message: err })
             });
         }).catch((err) => {
-            fs.appendFileSync(path.join(__dirname, '../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+            fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
         });
     }
     else {
         return res.json({ success: false, message:"FIELD MISSING" });
     }
 }
+function signOut(req, res) {
+
+    const authHeader = req.headers["authorization"];
+    jwt.sign(authHeader, "", { expiresIn: 1 } , (logout, err) => {
+    if (logout) {
+         return res.json({ success: true, message:"You have been Logged Out" });
+    } else {
+        res.send({ success: true, message:"Something Went wrong"});
+    }
+    });  
+
+}
+
 
 module.exports = {
     createUserAccount,
@@ -921,5 +963,6 @@ module.exports = {
     resetPass,
     verifyOTP,
     verifyEmail,
-    resendOTP
+    resendOTP,
+    signOut
 };

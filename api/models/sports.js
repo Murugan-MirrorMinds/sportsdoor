@@ -6,14 +6,7 @@ const sportsSchema = new Schema(
   {
     sport_name: { type: String, required: true, unique: true },
     sport_icon: { type: String, default:'' },
-    sport_slug: { type: String, default:'' },    
-    categories: [
-      {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'sportcategories',
-          default: ''
-      }
-    ],
+    sport_slug: { type: String, default:'' },   
     formats: [
       {
           type: mongoose.Schema.Types.ObjectId,

@@ -11,7 +11,8 @@ const {
     createUserAccountSocialmedia,
     verifyOTP,
     verifyEmail,
-    resendOTP
+    resendOTP,
+    signOut
 } = require('../controllers/v1/auth.controller');
 
 router.post('/register', createUserAccount);
@@ -23,6 +24,7 @@ router.post('/reset-password', resetPass);
 router.post('/verify-otp', verifyOTP);
 router.post('/verifyemail', verifyEmail);
 router.post('/resend-otp', resendOTP);
+router.post('/logout', signOut);
 
 router.get('/dashboard', function(req, res) {
     res.send('It worked! User id is: ' );
