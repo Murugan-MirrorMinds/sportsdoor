@@ -18,7 +18,11 @@ const config = require('./config/config');
 // connect to MongoDB
 mongoose.connect(config.LOCAL_DB_URL, { useNewUrlParser: true });
  
-app.use('/resources', express.static(__dirname + '/uploads'));
+
+app.use(express.static('./public'));
+app.use('/uploads', express.static('uploads'));
+
+app.use('/uploads', express.static(__dirname + '/uploads'));
 // file upload
 app.use(fileUpload({createParentPath:true}));
 // use cors and helmet
@@ -27,7 +31,12 @@ app.use(helmet());
 app.use(cookieParser());
 // parse incoming requests
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 
 // serve static files from template
 app.set('view engine', 'ejs');
