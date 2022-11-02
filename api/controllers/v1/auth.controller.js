@@ -942,13 +942,23 @@ function resendOTP(req, res) {
 function signOut(req, res) {
 
     const authHeader = req.headers["authorization"];
-    jwt.sign(authHeader, "", { expiresIn: 1 } , (logout, err) => {
+    /* jwt.sign(authHeader, "", { expiresIn: 1 } , (logout, err) => {
     if (logout) {
          return res.json({ success: true, message:"You have been Logged Out" });
     } else {
         res.send({ success: true, message:"Something Went wrong"});
     }
-    });  
+    });   */
+
+    jwt.verify(token, config.secret, (err, decode) => {
+      if (err) {
+        res.status(401).send({ message: 'Invalid Token' });
+      } else {
+        req.user = "";
+        req.userId = "";
+        next();
+      }
+    });
 
 }
 

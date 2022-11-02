@@ -19,12 +19,10 @@ const config = require('./config/config');
 mongoose.connect(config.LOCAL_DB_URL, { useNewUrlParser: true });
  
 
-app.use(express.static('./public'));
-app.use('/uploads', express.static('uploads'));
-
-app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use('/resources', express.static(__dirname + '/uploads'));
 // file upload
 app.use(fileUpload({createParentPath:true}));
+
 // use cors and helmet
 app.use(cors());
 app.use(helmet());

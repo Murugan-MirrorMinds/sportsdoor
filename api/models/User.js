@@ -86,6 +86,7 @@ const UserSchema = new Schema({
   },
   my_sports: [
     {
+        _id: false,
         sportId : {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'sports',

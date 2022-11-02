@@ -1,13 +1,7 @@
 const User = require('../../models/User');
-const config = require('../../config/config');
-const jwt = require('jsonwebtoken');
 const path = require('path');
-
-function index(req, res) {
-    
-    return res.json({ success: true, message:"Index" });
-
-}
+const fs = require('fs');
+const {ObjectId} = require('mongodb');
 
 function getUserInfo(req, res) {
     var user_id = req.user._id;
@@ -71,11 +65,22 @@ function profileImageUpdate(req, res) {
     if (!user) return res.json( { success: true, message: 'Invalid account.' });
     let updateData = {};
 
-    if (req.file && req.file.filename) {
-      updateData.profile_image = req.file.filename || user.profile_image;
+    let newFileName = '';
+    if (req.files) {
+        let imageFile = req.files.profile;
+        let imageName = req.files.profile.name;
+        let imageExt = imageName.split('.').pop();
+        newFileName = Date.now() + '.' + imageExt;
+        let filename = path.join(__dirname, '../../uploads/user/' + newFileName);
+        imageFile.mv(filename);
+        User.profile_image = newFileName;
+    }
 
-      User.findByIdAndUpdate({ _id:user_id }, { $set: updateData },{upsert: true})
-        .then(() => {  
+    if (newFileName) {
+      updateData.profile_image = newFileName || user.profile_image;
+
+            User.findByIdAndUpdate({ _id:user_id }, { $set: updateData },{upsert: true})
+            .then(() => {  
                 User.findById({_id:user_id}).then(userinfo => {
 
                     return res.json({ success: true, message: 'Profile image updated successfully', Users: userinfo });
@@ -119,13 +124,14 @@ function deleteAccount(req, res) {
     let updateData = {};
     updateData.status = 'D';
     
-    User.findByIdAndUpdate({ _id:user_id }, { $set: updateData })
-            .then(() => {
-                return res.json({ success: true, message: 'Account deleted temporarily!' });
-            }).catch((err) => {
-                fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
-                return res.json({ success: false, message: err });
-            });
+        User.findByIdAndUpdate({ _id:user_id }, { $set: updateData })
+                .then(() => {
+                    return res.json({ success: true, message: 'Account deleted temporarily!' });
+        }).catch((err) => {
+            fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+            return res.json({ success: false, message: err });
+        });
+
     }).catch((err) => {
         fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
         return res.json({ success: false, message: err });
@@ -133,21 +139,57 @@ function deleteAccount(req, res) {
 
 }
 
-function addMySports(req, res) {
+function addMySportsById(req, res) {
 
     var user_id = req.user._id;
 
-    let updateData = {};
+    let sport = req.body.sport;
 
-    updateData.sports = (req.body.sports)? req.body.sports:'';
+    let sportId = sport.sportId;
+    let level = sport.level;
 
+    User.updateOne({ _id:user_id }, { $push: { "my_sports": { "sportId": sportId, "level": level } } })
+    .then(() => {
+        User.findById({_id:user_id}).then(userinfo => {
 
-    return res.json({ success: true, message:"Added Into My Sports List" });
+            return res.json({ success: true, message: 'Sport added into my list successfully', Users: userinfo });
 
+        }).catch((err) => {
+            fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+            return res.json({ success: false, message: err });
+        }); 
+    }).catch((err) => {
+        fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+        return res.json({ success: false, message: err });
+    });   
+}
+function addMyLocationById(req, res) {
+
+   
 }
 
+function mySports(req, res) {
+   var user_id = req.user._id;
+     User.findById({ _id: user_id }).then(user => {
+        if (!user) return res.json( { success: true, message: 'Invalid account.' });
+
+        User.findById({_id:user_id},{_id:0, my_sports:1}).populate({
+                path : 'my_sports.sportId',
+                select:'sport_name',
+            }).then(sportslist => {
+
+            return res.json({ success: true, message: 'My Sports', mysports:sportslist });
+
+        }).catch((err) => {
+            fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+            return res.json({ success: false, message: err });
+        }); 
+    }).catch((err) => {
+        fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+        return res.json({ success: false, message: err });
+    });
+}
 module.exports = {
-    index,
     getUserInfo,
     profileUpdate,
     profileImageUpdate,
@@ -155,6 +197,8 @@ module.exports = {
     changePassword,
     socialAccount,
     deleteAccount,
-    addMySports
+    addMySportsById,
+    addMyLocationById,
+    mySports
 
 }
