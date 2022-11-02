@@ -1,272 +1,147 @@
 [{
   "_id": {
-    "$oid": "6357d9191cc80051f99b50a6"
+    "$oid": "635fa8065449ff2c2ad44598"
   },
-  "gcm_id": "etrertwtwetwetrwetewtwe",
-  "gcm_status": "Y",
+  "gcm_id": "123456",
+  "user_type": "A",
+  "gcm_status": "D",
   "user_id": {
-    "$oid": "6357d9191cc80051f99b50a3"
+    "$oid": "635f9dcc84836dbf7d5ae170"
   },
   "createdAt": {
     "$date": {
-      "$numberLong": "1666701593208"
+      "$numberLong": "1667213318764"
     }
   },
   "updatedAt": {
     "$date": {
-      "$numberLong": "1666701593208"
+      "$numberLong": "1667213373458"
     }
   },
   "__v": 0
 },{
   "_id": {
-    "$oid": "6358d64b639a45d2522ab033"
+    "$oid": "635fa83d5449ff2c2ad4459e"
   },
-  "gcm_id": "",
+  "gcm_id": "123456",
   "user_type": "A",
-  "gcm_status": "Y",
+  "gcm_status": "D",
   "user_id": {
-    "$oid": "6357d9191cc80051f99b50a3"
+    "$oid": "635f9dcc84836dbf7d5ae170"
   },
   "createdAt": {
     "$date": {
-      "$numberLong": "1666766411981"
+      "$numberLong": "1667213373461"
     }
   },
   "updatedAt": {
     "$date": {
-      "$numberLong": "1666766411981"
+      "$numberLong": "1667213469509"
     }
   },
   "__v": 0
 },{
   "_id": {
-    "$oid": "6358d72af49990082e564390"
+    "$oid": "635fa89d80c91a45551c86dd"
   },
-  "gcm_id": "",
+  "gcm_id": "123456",
   "user_type": "A",
   "gcm_status": "Y",
   "user_id": {
-    "$oid": "6358d72af49990082e56438d"
+    "$oid": "635f9dcc84836dbf7d5ae170"
   },
   "createdAt": {
     "$date": {
-      "$numberLong": "1666766634198"
+      "$numberLong": "1667213469522"
     }
   },
   "updatedAt": {
     "$date": {
-      "$numberLong": "1666766634198"
+      "$numberLong": "1667213469522"
     }
   },
   "__v": 0
 },{
   "_id": {
-    "$oid": "6358d771f49990082e564399"
+    "$oid": "635fad3d1eb607b938adb1e7"
   },
-  "gcm_id": "",
+  "gcm_id": "123456",
   "user_type": "A",
-  "gcm_status": "Y",
+  "gcm_status": "D",
   "user_id": {
-    "$oid": "6358d771f49990082e564396"
+    "$oid": "635fad3d1eb607b938adb1e4"
   },
   "createdAt": {
     "$date": {
-      "$numberLong": "1666766705974"
+      "$numberLong": "1667214653926"
     }
   },
   "updatedAt": {
     "$date": {
-      "$numberLong": "1666766705974"
+      "$numberLong": "1667216214454"
     }
   },
   "__v": 0
 },{
   "_id": {
-    "$oid": "6358d7d7f49990082e56439e"
+    "$oid": "635fb0daaf88855e8b4dff04"
   },
-  "gcm_id": "",
+  "gcm_id": "1234567",
   "user_type": "A",
   "gcm_status": "Y",
   "user_id": {
-    "$oid": "6357bbbae2e5c74332fde190"
+    "$oid": "635fb0daaf88855e8b4dff01"
   },
   "createdAt": {
     "$date": {
-      "$numberLong": "1666766807857"
+      "$numberLong": "1667215578225"
     }
   },
   "updatedAt": {
     "$date": {
-      "$numberLong": "1666766807857"
+      "$numberLong": "1667215578225"
     }
   },
   "__v": 0
 },{
   "_id": {
-    "$oid": "6358e0914bc61484b6329c0e"
+    "$oid": "635fb356e9bc752d51a97582"
   },
-  "gcm_id": "",
+  "gcm_id": "123456",
   "user_type": "A",
-  "gcm_status": "Y",
+  "gcm_status": "D",
   "user_id": {
-    "$oid": "6358e0914bc61484b6329c0b"
+    "$oid": "635fad3d1eb607b938adb1e4"
   },
   "createdAt": {
     "$date": {
-      "$numberLong": "1666769041966"
+      "$numberLong": "1667216214466"
     }
   },
   "updatedAt": {
     "$date": {
-      "$numberLong": "1666769041966"
+      "$numberLong": "1667216351346"
     }
   },
   "__v": 0
 },{
   "_id": {
-    "$oid": "6358e16cb9db0b2ca62019fb"
+    "$oid": "635fb3df9ceeebecf469d388"
   },
-  "gcm_id": "",
+  "gcm_id": "123456",
   "user_type": "A",
   "gcm_status": "Y",
   "user_id": {
-    "$oid": "6358e16cb9db0b2ca62019f8"
+    "$oid": "635fad3d1eb607b938adb1e4"
   },
   "createdAt": {
     "$date": {
-      "$numberLong": "1666769260149"
+      "$numberLong": "1667216351354"
     }
   },
   "updatedAt": {
     "$date": {
-      "$numberLong": "1666769260149"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "6358e23b344cbc4d795c1428"
-  },
-  "gcm_id": "",
-  "user_type": "A",
-  "gcm_status": "Y",
-  "user_id": {
-    "$oid": "6357d9191cc80051f99b50a3"
-  },
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1666769467162"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1666769467162"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "635932b52d1bf39363c88b5c"
-  },
-  "gcm_id": "",
-  "user_type": "A",
-  "gcm_status": "Y",
-  "user_id": {
-    "$oid": "635932b52d1bf39363c88b59"
-  },
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1666790069360"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1666790069360"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "635a16c66cdfae76679471c4"
-  },
-  "gcm_id": "",
-  "user_type": "A",
-  "gcm_status": "Y",
-  "user_id": {
-    "$oid": "6357d9191cc80051f99b50a3"
-  },
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1666848454209"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1666848454209"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "635a2b8afb3d5f400d34d975"
-  },
-  "gcm_id": "",
-  "user_type": "A",
-  "gcm_status": "Y",
-  "user_id": {
-    "$oid": "6357d9191cc80051f99b50a3"
-  },
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1666853770989"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1666853770989"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "635a2c6c611cf90fbd982247"
-  },
-  "gcm_id": "",
-  "user_type": "A",
-  "gcm_status": "Y",
-  "user_id": {
-    "$oid": "6357d9191cc80051f99b50a3"
-  },
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1666853996147"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1666853996147"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "635a4af70d04570cecd101c9"
-  },
-  "gcm_id": "",
-  "user_type": "A",
-  "gcm_status": "Y",
-  "user_id": {
-    "$oid": "6357d9191cc80051f99b50a3"
-  },
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1666861815698"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1666861815698"
+      "$numberLong": "1667216351354"
     }
   },
   "__v": 0

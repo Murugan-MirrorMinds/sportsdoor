@@ -1,0 +1,278 @@
+[{
+  "_id": {
+    "$oid": "635b9c63d7ee5f10da941718"
+  },
+  "sport_name": "Cricket",
+  "sport_icon": "",
+  "sport_slug": "cricket",
+  "formats": [
+    {
+      "$oid": "635a60d99d0c64aa247f7847"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f7848"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f7849"
+    }
+  ],
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "635b9c63d7ee5f10da941719"
+  },
+  "sport_name": "Football",
+  "sport_icon": "",
+  "sport_slug": "football",
+  "formats": [
+    {
+      "$oid": "635a60d99d0c64aa247f7853"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f7854"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f784f"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f7855"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f7856"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f7850"
+    }
+  ],
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "635b9c63d7ee5f10da94171a"
+  },
+  "sport_name": "Running",
+  "sport_icon": "",
+  "sport_slug": "running",
+  "formats": [
+    {
+      "$oid": "635a60d99d0c64aa247f784a"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f784b"
+    }
+  ],
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "635b9c63d7ee5f10da94171b"
+  },
+  "sport_name": "Cycling",
+  "sport_icon": "",
+  "sport_slug": "cycling",
+  "formats": [
+    {
+      "$oid": "635a60d99d0c64aa247f784b"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f785a"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f784c"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f784d"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f784e"
+    }
+  ],
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "635b9c63d7ee5f10da94171c"
+  },
+  "sport_name": "Badminton",
+  "sport_icon": "",
+  "sport_slug": "badminton",
+  "formats": [
+    {
+      "$oid": "635a60d99d0c64aa247f7851"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f7852"
+    }
+  ],
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "635b9c63d7ee5f10da94171d"
+  },
+  "sport_name": "Tennis",
+  "sport_icon": "",
+  "sport_slug": "tennis",
+  "formats": [
+    {
+      "$oid": "635a60d99d0c64aa247f7851"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f7852"
+    }
+  ],
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "635b9c63d7ee5f10da94171e"
+  },
+  "sport_name": "Basketball",
+  "sport_icon": "",
+  "sport_slug": "basketball",
+  "formats": [
+    {
+      "$oid": "635a60d99d0c64aa247f7857"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f7858"
+    }
+  ],
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "635b9c63d7ee5f10da94171f"
+  },
+  "sport_name": "Table Tennis",
+  "sport_icon": "",
+  "sport_slug": "table-tennis",
+  "formats": [
+    {
+      "$oid": "635a60d99d0c64aa247f7851"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f7852"
+    }
+  ],
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "635b9c63d7ee5f10da941720"
+  },
+  "sport_name": "Kabaddi",
+  "sport_icon": "",
+  "sport_slug": "kabaddi",
+  "formats": [],
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "635b9c63d7ee5f10da941721"
+  },
+  "sport_name": "Box Cricket",
+  "sport_icon": "",
+  "sport_slug": "box-cricket",
+  "formats": [
+    {
+      "$oid": "635a60d99d0c64aa247f784f"
+    },
+    {
+      "$oid": "635a60d99d0c64aa247f7850"
+    }
+  ],
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666948195489"
+    }
+  }
+}]

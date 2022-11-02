@@ -1,121 +1,94 @@
 [{
-  "_id": "6357bbbae2e5c74332fde190",
+  "_id": {
+    "$oid": "635fad3d1eb607b938adb1e4"
+  },
   "first_name": "Murugan",
+  "last_name": "Amirthalignam",
   "mobile": "7871975184",
   "email": "amurugan1993@gmail.com",
-  "password": "688ac8fea75e959f4d8e7e5a00b48c33:RtCejN2sZRuyjRKrKyPQOmCIeEAEwvId",
+  "password": "8846145a31794477968ec3f292543942:LAOSlzFg1ZypbSQlhUXtXycMo6ysdRCx",
+  "profile_image": "1667293635625.jpeg",
   "user_role": "admin",
-  "address": [],
-  "my_sports": [],
+  "bio": "I'm fond of my sports",
+  "gender": "M",
+  "fitness_level": "",
   "my_teams": [],
   "fav_venues": [],
   "fav_shops": [],
   "fav_academics": [],
-  "accounts": [],
-  "email_verify": "FALSE",
-  "otp_verify": "FALSE",
+  "user_oauth_provider": "",
+  "user_oauth_id": "",
+  "email_verify_code": "",
+  "email_verify": true,
+  "otp": "",
+  "otp_verify": true,
   "status": "Y",
-  "createdAt": "2022-10-25T10:34:34.050Z",
-  "updatedAt": "2022-10-25T10:34:34.050Z",
-  "__v": "0"
-},{
-  "_id": "6357d9191cc80051f99b50a3",
-  "first_name": "Murugan",
-  "mobile": "7299486489",
-  "email": "amurugan7593@gmail.com",
-  "password": "70629a00a92f44f80dcfe254fccd5328:mLX0DYSMWUqGUqA9hgq0SgLjR1OJZS5A",
-  "user_role": "user",
   "address": [],
-  "my_sports": [],
-  "my_teams": [],
-  "fav_venues": [],
-  "fav_shops": [],
-  "fav_academics": [],
-  "accounts": [],
-  "email_verify_code": "1111",
-  "email_verify": "FALSE",
-  "otp_verify": "TRUE",
-  "resetPasswordToken": "403bbcc6d3125090e7b8c2d31f80e87c",
-  "resetPasswordExpires": "2022-10-27T05:48:19.774Z",
-  "status": "Y",
-  "createdAt": "2022-10-25T12:39:53.171Z",
-  "updatedAt": "2022-10-26T07:58:55.779Z",
-  "__v": "0"
+  "dob": {
+    "$date": {
+      "$numberLong": "1667214653879"
+    }
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667214653893"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667293635629"
+    }
+  },
+  "__v": 0,
+  "my_sports": [
+    {
+      "sportId": {
+        "$oid": "635b9c63d7ee5f10da94171a"
+      },
+      "level": ""
+    }
+  ]
 },{
-  "_id": "6358d72af49990082e56438d",
+  "_id": {
+    "$oid": "635fb0daaf88855e8b4dff01"
+  },
   "first_name": "Praveen",
+  "last_name": "",
   "mobile": "9876543212",
+  "email": "",
+  "password": "",
+  "profile_image": "",
   "user_role": "user",
-  "address": [],
-  "my_sports": [],
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
   "my_teams": [],
   "fav_venues": [],
   "fav_shops": [],
   "fav_academics": [],
-  "accounts": [],
-  "email_verify": "FALSE",
-  "otp": "1111",
-  "otp_verify": "FALSE",
+  "user_oauth_provider": "",
+  "user_oauth_id": "",
+  "email_verify_code": "",
+  "email_verify": false,
+  "otp": "",
+  "otp_verify": true,
   "status": "Y",
-  "createdAt": "2022-10-26T06:43:54.178Z",
-  "updatedAt": "2022-10-26T06:43:54.178Z",
-  "__v": "0"
-},{
-  "_id": "6358d771f49990082e564396",
-  "first_name": "Murugan",
-  "mobile": "7299386489",
-  "email": "amurugan93@gmail.com",
-  "password": "631c1a005c6cbc2df68cb197b75cdcc8:ZEZqZyHcbKBJi2Ob9GJD04hTEpMTs4sF",
-  "user_role": "user",
   "address": [],
-  "my_sports": [],
-  "my_teams": [],
-  "fav_venues": [],
-  "fav_shops": [],
-  "fav_academics": [],
-  "accounts": [],
-  "email_verify_code": "1111",
-  "email_verify": "FALSE",
-  "otp": "1111",
-  "otp_verify": "FALSE",
-  "status": "Y",
-  "createdAt": "2022-10-26T06:45:05.962Z",
-  "updatedAt": "2022-10-26T12:55:15.538Z",
-  "__v": "0"
-},{
-  "_id": "6358e0914bc61484b6329c0b",
-  "user_role": "user",
-  "address": [],
-  "my_sports": [],
-  "my_teams": [],
-  "fav_venues": [],
-  "fav_shops": [],
-  "fav_academics": [],
-  "user_oauth_provider": "GOOGLE",
-  "user_oauth_id": "amurugan.mirrorminds@gmail.com",
-  "accounts": [],
-  "email_verify": "FALSE",
-  "otp_verify": "FALSE",
-  "status": "Y",
-  "createdAt": "2022-10-26T07:24:01.936Z",
-  "updatedAt": "2022-10-26T07:24:01.936Z",
-  "__v": "0"
-},{
-  "_id": "6358e16cb9db0b2ca62019f8",
-  "user_role": "user",
-  "address": [],
-  "my_sports": [],
-  "my_teams": [],
-  "fav_venues": [],
-  "fav_shops": [],
-  "fav_academics": [],
-  "user_oauth_provider": "GOOGLE",
-  "user_oauth_id": "amurugan.mirrorminds93@gmail.com",
-  "accounts": [],
-  "email_verify": "FALSE",
-  "otp_verify": "FALSE",
-  "status": "Y",
-  "createdAt": "2022-10-26T07:27:40.125Z",
-  "updatedAt": "2022-10-26T07:27:40.125Z",
-  "__v": "0"
+  "dob": {
+    "$date": {
+      "$numberLong": "1667215578194"
+    }
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667215578204"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667215656542"
+    }
+  },
+  "__v": 0,
+  "my_sports": []
 }]

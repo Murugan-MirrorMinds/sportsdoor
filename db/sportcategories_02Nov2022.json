@@ -1,0 +1,135 @@
+[{
+  "_id": {
+    "$oid": "635a58209d0c64aa247f782e"
+  },
+  "cat_name": "Popular Sports",
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666865184553"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666865184553"
+    }
+  },
+  "sports": [
+    {
+      "$oid": "635b9c63d7ee5f10da941718"
+    },
+    {
+      "$oid": "635b9c63d7ee5f10da941719"
+    },
+    {
+      "$oid": "635b9c63d7ee5f10da94171c"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "635a58589d0c64aa247f782f"
+  },
+  "cat_name": "Team Sports",
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666865240041"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666865240041"
+    }
+  },
+  "sports": [
+    {
+      "$oid": "635b9c63d7ee5f10da941718"
+    },
+    {
+      "$oid": "635b9c63d7ee5f10da941719"
+    },
+    {
+      "$oid": "635b9c63d7ee5f10da94171c"
+    },
+    {
+      "$oid": "635b9c63d7ee5f10da94171d"
+    },
+    {
+      "$oid": "635b9c63d7ee5f10da94171e"
+    },
+    {
+      "$oid": "635b9c63d7ee5f10da941720"
+    },
+    {
+      "$oid": "635b9c63d7ee5f10da941721"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "635a58589d0c64aa247f7830"
+  },
+  "cat_name": "Racquet Sports",
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666865240041"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666865240041"
+    }
+  },
+  "sports": [
+    {
+      "$oid": "635b9c63d7ee5f10da94171c"
+    },
+    {
+      "$oid": "635b9c63d7ee5f10da94171d"
+    },
+    {
+      "$oid": "635b9c63d7ee5f10da94171f"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "635a58589d0c64aa247f7831"
+  },
+  "cat_name": "Fitness",
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666865240041"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666865240041"
+    }
+  },
+  "sports": [
+    {
+      "$oid": "635b9c63d7ee5f10da94171a"
+    },
+    {
+      "$oid": "635b9c63d7ee5f10da94171b"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "635a58589d0c64aa247f7832"
+  },
+  "cat_name": "Recreation",
+  "status": "Y",
+  "created_at": {
+    "$date": {
+      "$numberLong": "1666865240041"
+    }
+  },
+  "updated_at": {
+    "$date": {
+      "$numberLong": "1666865240041"
+    }
+  },
+  "sports": []
+}]
