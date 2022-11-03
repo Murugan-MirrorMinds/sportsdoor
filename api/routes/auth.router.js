@@ -7,8 +7,6 @@ const {
     userLogin,
     forgotPass,
     resetPass,
-    createUserAccountByOTP,
-    createUserAccountSocialmedia,
     verifyOTP,
     verifyEmail,
     resendOTP,
@@ -16,8 +14,6 @@ const {
 } = require('../controllers/v1/auth.controller');
 
 router.post('/register', createUserAccount);
-router.post('/register-otp', createUserAccountByOTP);
-router.post('/register-media', createUserAccountSocialmedia);
 router.post('/login', userLogin);
 router.post('/forgot-password', forgotPass);
 router.post('/reset-password', resetPass);

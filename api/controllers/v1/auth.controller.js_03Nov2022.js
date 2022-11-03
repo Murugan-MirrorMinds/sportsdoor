@@ -22,405 +22,420 @@ const {
 function createUserAccount(req, res) {
 
     const { body } = req;
-    const { name, email, mobile, password, unique_id, register_by, user_type, gcmkey } = body.userData;
+    const { name, email, mobile, password, user_type, gcmkey } = body.userData;
 
-    if(register_by=='MOBILE'){
+    if(name && email && mobile && password && user_type && gcmkey){
 
-        if(name && mobile && user_type && gcmkey){
-            User.find({ mobile: mobile, status: 'Y' }).then(existsMobile => {
-                if (existsMobile.length > 0) return res.status(400).send({ success: false, message: 'Mobile Number already exists.' });
+        User.find({ email: email, status: 'Y' }).then(existsEmail => {
+        if (existsEmail.length > 0) return res.status(400).send({ success: false, message: 'Email address already exists.' });
+        User.find({ mobile: mobile, status: 'Y' }).then(existsMobile => {
+        if (existsMobile.length > 0) return res.status(400).send({ success: false, message: 'Mobile Number already exists.' });
 
-                let query = {};
-                User.countDocuments(query)
-                    .then(() => {
-                        const newUser = new User();    
-                        newUser.email = '';            
-                        newUser.mobile = mobile;
-                        newUser.first_name = name;
-                        newUser.user_role = 'user';                
-                        newUser.address.location = '';
-                        newUser.otp='1111';
+        let query = {};
+        User.countDocuments(query)
+            .then(() => {
+                const newUser = new User();
+                newUser.email = email;
+                newUser.first_name = name;
+                newUser.mobile = mobile;
+                newUser.user_role = 'user';
+                newUser.address.location = '';
+                newUser.address.location = '';
+                var passwordSalt = genRandomPassword(32);
+                var userPassword = getCryptedPassword(password, passwordSalt);
+                newUser.password = userPassword + ':' + passwordSalt;
+
+                let otp='1111';
+                let emailotp='1111';
+
+                newUser.otp=otp;
+			    newUser.email_verify_code=emailotp;
+
+                
+                newUser.save((err) => {
+                    if (err) {
+                        return res.status(400).send({ success: true, message: 'Server error!' });
+                    }
+                  //  const token = jwt.sign(newUser.toJSON(), config.secret);
+
+                    const token = generateToken(newUser);
+
+                    let users = {};
+
+                    const Access_Tab = new Access();
+
+                    var username = newUser.first_name;
+                    if(newUser.last_name){
+                        username = newUser.first_name+ ' ' + newUser.last_name;
+                    }
+
+                    EmailTemplates.findOne({ template_name: 'otp_verification' })
+                    .then(emailRow => {
+                        var subject = emailRow.template_subject;
+                        var htmlStr = emailRow.template_content;
+                        var resultHtml = htmlStr.replace(/{USER_NAME}/g, username);
+                        resultHtml = resultHtml.replace(/{logo_path}/g, config.logo_path);
+                        resultHtml = resultHtml.replace(/{OTP}/g, emailotp);
+                        var toEmail = newUser.email;
                         
-                        newUser.save((err) => {
-                            if (err) {
-                                return res.status(400).send({ success: true, message: 'Server error!' });
-                            }
-                        // const token = jwt.sign(newUser.toJSON(), config.secret);
-                        const token = generateToken(newUser);
+                        sendCustomMail(username, toEmail, resultHtml, subject);
+                        
+                    })
 
-                            let users = {};
+                    if(token){
+                        Access_Tab.access_key = token;
+                        Access_Tab.user_id = newUser._id;
+                        Access_Tab.access_status = 'Y';
+                        Access_Tab.access_ip = ip.address();
+                    }
 
-                            var username = newUser.first_name;
-                            if(newUser.last_name){
-                                username = newUser.first_name+ ' ' + newUser.last_name;
-                            }
+                    Access_Tab.save();
+                    
+                    let gcmRegister_tab = new gcmRegister();
 
-                            EmailTemplates.findOne({ template_name: 'otp_verification' })
-                            .then(emailRow => {
-                                var subject = emailRow.template_subject;
-                                var htmlStr = emailRow.template_content;
-                                var resultHtml = htmlStr.replace(/{USER_NAME}/g, username);
-                                resultHtml = resultHtml.replace(/{logo_path}/g, config.logo_path);
-                                resultHtml = resultHtml.replace(/{OTP}/g, otp);
-                                var toEmail = newUser.email;
-                                
-                                sendCustomMail(username, toEmail, resultHtml, subject);
-                                
-                            }).catch((err) => {
-                                fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
-                            });
+                    if(gcmRegister_tab){
+                        gcmRegister_tab.user_id = newUser._id;
+                        gcmRegister_tab.user_type = user_type;
+                        gcmRegister_tab.gcm_id = gcmkey;
+                        gcmRegister_tab.gcm_status = 'Y';
+                    }
+                    gcmRegister_tab.save();
 
-                            const Access_Tab = new Access();
+                    let rootdir = config.UPLOAD_DIR;
+                    let fpath = rootdir + '/' + newUser.profile_image;
+                    let filepath = fpath.replaceAll('\\', '/');
 
-                            if(token){
-                                Access_Tab.access_key = token;
-                                Access_Tab.user_id = newUser._id;
-                                Access_Tab.access_status = 'Y';
-                                Access_Tab.access_ip = ip.address();
-                            }
+                    if(newUser){
+                        users = {
+                            userId: newUser._id,
+                            firstName: newUser.first_name ? newUser.first_name : '',
+                            lastName: newUser.last_name ? newUser.last_name : '',
+                            email: newUser.email ? newUser.email : '',
+                            mobile: newUser.mobile  ? newUser.mobile : '',
+                            image: newUser.profile_image  ? filepath : '',
+                            role: newUser.user_role  ? newUser.user_role : 'user',
+                            gender: newUser.gender ? newUser.gender : '',
+                            bio: newUser.bio  ? newUser.bio : '',
+                            address: {
+                                address1: newUser.address1  ?newUser.address.address1 : '',
+                                city: newUser.address.city  ? newUser.address.city : '',
+                                state: newUser.address.state  ? newUser.address.state : '',
+                                country: newUser.address.country  ? newUser.address.country : 'India',
+                                zip: newUser.address.zip  ? newUser.address.zip : '',
+                                location: {                                    
+                                    latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
+                                    longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
+                                }
+                            },
+                            loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'EMAIL',
+                            oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
+                            mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
+                            email_verify: newUser.email_verify  ? newUser.email_verify : false,
+                            status: newUser.status  ? newUser.status : 'Y',
+                        };
 
-                            Access_Tab.save();
+                    } 
+                    return res.json({ users: users, success: true, token: token });
 
-                            let gcmRegister_tab = new gcmRegister();
+                });
+            }).catch((err) => {
+                fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+            });
 
-                            if(gcmRegister_tab){
-                                gcmRegister_tab.user_id = newUser._id;
-                                gcmRegister_tab.user_type = user_type;
-                                gcmRegister_tab.gcm_id = gcmkey;
-                                gcmRegister_tab.gcm_status = 'Y';
-                            }
-                            gcmRegister_tab.save();
-                            
+     }).catch((err) => {
+        fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+        return res.status(400).send({ success: false, message: 'Server error 22' });
+        
+    });
 
-                            let rootdir = config.UPLOAD_DIR;
-                            let fpath = rootdir + '/' + newUser.profile_image;
-                            let filepath = fpath.replaceAll('\\', '/');
+    }).catch((err) => {
+         fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+        return res.status(400).send({ success: false, message: 'Server error 22' });
+    });
 
-                            if(newUser){
-                                users = {
-                                    userId: newUser._id,
-                                    firstName: newUser.first_name ? newUser.first_name : '',
-                                    lastName: newUser.last_name ? newUser.last_name : '',
-                                    email: newUser.email ? newUser.email : '',
-                                    mobile: newUser.mobile  ? newUser.mobile : '',
-                                    image: newUser.profile_image  ? filepath : '',
-                                    role: newUser.user_role  ? newUser.user_role : 'user',
-                                    gender: newUser.gender ? newUser.gender : '',
-                                    bio: newUser.bio  ? newUser.bio : '',
-                                    address: {
-                                        address1: newUser.address1  ?newUser.address.address1 : '',
-                                        city: newUser.address.city  ? newUser.address.city : '',
-                                        state: newUser.address.state  ? newUser.address.state : '',
-                                        country: newUser.address.country  ? newUser.address.country : 'India',
-                                        zip: newUser.address.zip  ? newUser.address.zip : '',
-                                        location: {                                    
-                                            latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
-                                            longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
-                                        }
-                                    },
-                                    loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'MOBILE',
-                                    oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
-                                    mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
-                                    email_verify: newUser.email_verify  ? newUser.email_verify : false,
-                                    status: newUser.status  ? newUser.status : 'Y',
-                                };
+    }else {        
+        return res.json({ success: false, message:"FIELD MISSING" });
+    }
+    
+}
+function createUserAccountByOTP(req, res) {
 
-                            } 
-                            return res.json({ users: users, success: true, token: token });
+    const { body } = req;
+    const { name, mobile, user_type, gcmkey } = body.userData;
 
-                        });
+    if(name && mobile && user_type && gcmkey){
+
+    User.find({ mobile: mobile, status: 'Y' }).then(existsMobile => {
+        if (existsMobile.length > 0) return res.status(400).send({ success: false, message: 'Mobile Number already exists.' });
+
+        let query = {};
+        User.countDocuments(query)
+            .then(() => {
+                const newUser = new User();                
+                newUser.mobile = mobile;
+                newUser.first_name = name;
+                newUser.user_role = 'user';                
+                newUser.address.location = '';
+                newUser.address.location = '';
+                newUser.otp='1111';
+                
+                newUser.save((err) => {
+                    if (err) {
+                        return res.status(400).send({ success: true, message: 'Server error!' });
+                    }
+                   // const token = jwt.sign(newUser.toJSON(), config.secret);
+                   const token = generateToken(newUser);
+
+                    let users = {};
+
+                    var username = newUser.first_name;
+                    if(newUser.last_name){
+                        username = newUser.first_name+ ' ' + newUser.last_name;
+                    }
+
+                    EmailTemplates.findOne({ template_name: 'otp_verification' })
+                    .then(emailRow => {
+                        var subject = emailRow.template_subject;
+                        var htmlStr = emailRow.template_content;
+                        var resultHtml = htmlStr.replace(/{USER_NAME}/g, username);
+                        resultHtml = resultHtml.replace(/{logo_path}/g, config.logo_path);
+                        resultHtml = resultHtml.replace(/{OTP}/g, otp);
+                        var toEmail = newUser.email;
+                        
+                        sendCustomMail(username, toEmail, resultHtml, subject);
+                        
                     }).catch((err) => {
                         fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
                     });
 
+                    const Access_Tab = new Access();
+
+                    if(token){
+                        Access_Tab.access_key = token;
+                        Access_Tab.user_id = newUser._id;
+                        Access_Tab.access_status = 'Y';
+                        Access_Tab.access_ip = ip.address();
+                    }
+
+                    Access_Tab.save();
+
+                    let gcmRegister_tab = new gcmRegister();
+
+                    if(gcmRegister_tab){
+                        gcmRegister_tab.user_id = newUser._id;
+                        gcmRegister_tab.user_type = user_type;
+                        gcmRegister_tab.gcm_id = gcmkey;
+                        gcmRegister_tab.gcm_status = 'Y';
+                    }
+                    gcmRegister_tab.save();
+                    
+
+                    let rootdir = config.UPLOAD_DIR;
+                    let fpath = rootdir + '/' + newUser.profile_image;
+                    let filepath = fpath.replaceAll('\\', '/');
+
+                    if(newUser){
+                        users = {
+                            userId: newUser._id,
+                            firstName: newUser.first_name ? newUser.first_name : '',
+                            lastName: newUser.last_name ? newUser.last_name : '',
+                            email: newUser.email ? newUser.email : '',
+                            mobile: newUser.mobile  ? newUser.mobile : '',
+                            image: newUser.profile_image  ? filepath : '',
+                            role: newUser.user_role  ? newUser.user_role : 'user',
+                            gender: newUser.gender ? newUser.gender : '',
+                            bio: newUser.bio  ? newUser.bio : '',
+                            address: {
+                                address1: newUser.address1  ?newUser.address.address1 : '',
+                                city: newUser.address.city  ? newUser.address.city : '',
+                                state: newUser.address.state  ? newUser.address.state : '',
+                                country: newUser.address.country  ? newUser.address.country : 'India',
+                                zip: newUser.address.zip  ? newUser.address.zip : '',
+                                location: {                                    
+                                    latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
+                                    longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
+                                }
+                            },
+                            loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'MOBILE',
+                            oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
+                            mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
+                            email_verify: newUser.email_verify  ? newUser.email_verify : false,
+                            status: newUser.status  ? newUser.status : 'Y',
+                        };
+
+                    } 
+                    return res.json({ users: users, success: true, token: token });
+
+                });
             }).catch((err) => {
                 fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
-                return res.status(400).send({ success: false, message: 'Server error 22' });
             });
 
-            }else {
-                return res.json({ success: false, message:"FIELD MISSING" });
-            }
+     }).catch((err) => {
+        fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+        return res.status(400).send({ success: false, message: 'Server error 22' });
+    });
+
+     }else {
+        return res.json({ success: false, message:"FIELD MISSING" });
     }
-    else if(register_by=='SOCIAL_MEDIA'){
-
-         if(unique_id && register_by && user_type && gcmkey){            
-
-            User.find({ user_oauth_id: unique_id, user_oauth_provider: register_by, status: 'Y' }).then(user => {
-                if (user.length > 0) {
-                            //const token = jwt.sign(user.toJSON(), config.secret);
-
-                            const token = generateToken(user);
-
-                            let users = {};
-
-                            const Access_Tab = new Access();
-
-                            if(token){
-                                Access_Tab.access_key = token;
-                                Access_Tab.user_id = user._id;
-                                Access_Tab.access_status = 'Y';
-                                Access_Tab.access_ip = ip.address();
-                            }
-
-                            Access_Tab.save();
-
-                            let rootdir = config.UPLOAD_DIR;
-                            let fpath = rootdir + '/' + user.profile_image;
-                            let filepath = fpath.replaceAll('\\', '/');
-
-                            if(user){
-                                users = {
-                                    userId: user._id,
-                                    firstName: user.first_name ? user.first_name : '',
-                                    lastName: user.last_name ? user.last_name : '',
-                                    email: user.email ? user.email : '',
-                                    mobile: user.mobile  ? user.mobile : '',
-                                    image: user.profile_image  ? filepath : '',
-                                    role: user.user_role  ? user.user_role : 'user',
-                                    gender: user.gender ? user.gender : '',
-                                    bio: user.bio  ? user.bio : '',
-                                    address: {
-                                        address1: user.address.address1  ? user.address.address1 : '',
-                                        city: user.address.city  ? user.address.city : '',
-                                        state: user.address.state  ? user.address.state : '',
-                                        country: user.address.country  ? user.address.country : 'India',
-                                        zip: user.address.zip  ? user.address.zip : '',
-                                        location: {                                    
-                                            latitude: user.address.location.latitude  ? user.address.location.latitude : '',
-                                            longitude: user.address.location.longitude  ? user.address.location.longitude : '',
-                                        }
-                                    },
-                                    loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'SOCIALMEDIA',
-                                    oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
-                                    mobile_verify: user.otp_verify  ? user.otp_verify : false,
-                                    email_verify: user.email_verify  ? user.email_verify : false,
-                                    status: user.status  ? user.status : 'Y',
-                                };
-
-                            }
-                            return res.json({ users: users, success: true, token: token });
-
-            }else{
-                let query = {};
-                User.countDocuments(query)
-                .then(() => {
-                    const newUser = new User();                
-                    newUser.user_oauth_id = unique_id;
-                    newUser.user_oauth_provider = register_by;
-                    
-                    newUser.save((err) => {
-                        if (err) {
-                            return res.status(400).send({ success: true, message: 'Server error!' });
-                        }
-                        //const token = jwt.sign(newUser.toJSON(), config.secret);
-
-                        const token = generateToken(newUser);
-
-                        let users = {};
-
-                        const Access_Tab = new Access();
-
-                        if(token){
-                            Access_Tab.access_key = token;
-                            Access_Tab.user_id = newUser._id;
-                            Access_Tab.access_status = 'Y';
-                            Access_Tab.access_ip = ip.address();
-                        }
-
-                        Access_Tab.save();
-
-                        let gcmRegister_tab = new gcmRegister();
-
-                        if(gcmRegister_tab){
-                            gcmRegister_tab.user_id = newUser._id;
-                            gcmRegister_tab.user_type = user_type;
-                            gcmRegister_tab.gcm_id = gcmkey;
-                            gcmRegister_tab.gcm_status = 'Y';
-                        }
-                        gcmRegister_tab.save();
-                        
-
-                        let rootdir = config.UPLOAD_DIR;
-                        let fpath = rootdir + '/' + newUser.profile_image;
-                        let filepath = fpath.replaceAll('\\', '/');
-
-                        if(newUser){
-                            users = {
-                                userId: newUser._id,
-                                firstName: newUser.first_name ? newUser.first_name : '',
-                                lastName: newUser.last_name ? newUser.last_name : '',
-                                email: newUser.email ? newUser.email : '',
-                                mobile: newUser.mobile  ? newUser.mobile : '',
-                                image: newUser.profile_image  ? filepath : '',
-                                role: newUser.user_role  ? newUser.user_role : 'user',
-                                gender: newUser.gender ? newUser.gender : '',
-                                bio: newUser.bio  ? newUser.bio : '',
-                                address: {
-                                    address1: newUser.address1  ?newUser.address.address1 : '',
-                                    city: newUser.address.city  ? newUser.address.city : '',
-                                    state: newUser.address.state  ? newUser.address.state : '',
-                                    country: newUser.address.country  ? newUser.address.country : 'India',
-                                    zip: newUser.address.zip  ? newUser.address.zip : '',
-                                    location: {                                    
-                                        latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
-                                        longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
-                                    }
-                                },
-                                loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'EMAIL',
-                                oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
-                                mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
-                                email_verify: newUser.email_verify  ? newUser.email_verify : false,
-                                status: newUser.status  ? newUser.status : 'Y',
-                            };
-
-                        } 
-                        return res.json({ users: users, success: true, token: token });
-
-                    });
-                }).catch((err) => {
-                    fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
-                });
-            }
-            
-
-        }).catch((err) => {
-            fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
-            return res.status(400).send({ success: false, message: 'Account already registered' });
-        });
-        }else {
-            return res.json({ success: false, message:"FIELD MISSING" });
-        }
-
-    }else{
-        
-        if(name && email && password && user_type && gcmkey){
-
-            User.find({ email: email, status: 'Y' }).then(existsEmail => {
-            if (existsEmail.length > 0) return res.status(200).send({ success: false, message: 'Email address already exists.' });
-            let query = {};
-            User.countDocuments(query)
-                .then(() => {
-                    const newUser = new User();
-                    newUser.email = email;
-                    newUser.first_name = name;
-                    newUser.mobile = '';
-                    newUser.user_role = 'user';
-                    newUser.address.location = '';
-                    var passwordSalt = genRandomPassword(32);
-                    var userPassword = getCryptedPassword(password, passwordSalt);
-                    newUser.password = userPassword + ':' + passwordSalt;
-
-                    let otp='1111';
-                    let emailotp='1111';
-
-                    newUser.otp=otp;
-                    newUser.email_verify_code=emailotp;
-
-                    
-                    newUser.save((err) => {
-                        if (err) {
-                            return res.status(400).send({ success: true, message: 'Server error!' });
-                        }
-                    //  const token = jwt.sign(newUser.toJSON(), config.secret);
-
-                        const token = generateToken(newUser);
-
-                        let users = {};
-
-                        const Access_Tab = new Access();
-
-                        var username = newUser.first_name;
-                        if(newUser.last_name){
-                            username = newUser.first_name+ ' ' + newUser.last_name;
-                        }
-
-                        EmailTemplates.findOne({ template_name: 'otp_verification' })
-                        .then(emailRow => {
-                            var subject = emailRow.template_subject;
-                            var htmlStr = emailRow.template_content;
-                            var resultHtml = htmlStr.replace(/{USER_NAME}/g, username);
-                            resultHtml = resultHtml.replace(/{logo_path}/g, config.logo_path);
-                            resultHtml = resultHtml.replace(/{OTP}/g, emailotp);
-                            var toEmail = newUser.email;
-                            
-                            sendCustomMail(username, toEmail, resultHtml, subject);
-                            
-                        })
-
-                        if(token){
-                            Access_Tab.access_key = token;
-                            Access_Tab.user_id = newUser._id;
-                            Access_Tab.access_status = 'Y';
-                            Access_Tab.access_ip = ip.address();
-                        }
-
-                        Access_Tab.save();
-                        
-                        let gcmRegister_tab = new gcmRegister();
-
-                        if(gcmRegister_tab){
-                            gcmRegister_tab.user_id = newUser._id;
-                            gcmRegister_tab.user_type = user_type;
-                            gcmRegister_tab.gcm_id = gcmkey;
-                            gcmRegister_tab.gcm_status = 'Y';
-                        }
-                        gcmRegister_tab.save();
-
-                        let rootdir = config.UPLOAD_DIR;
-                        let fpath = rootdir + '/' + newUser.profile_image;
-                        let filepath = fpath.replaceAll('\\', '/');
-
-                        if(newUser){
-                            users = {
-                                userId: newUser._id,
-                                firstName: newUser.first_name ? newUser.first_name : '',
-                                lastName: newUser.last_name ? newUser.last_name : '',
-                                email: newUser.email ? newUser.email : '',
-                                mobile: newUser.mobile  ? newUser.mobile : '',
-                                image: newUser.profile_image  ? filepath : '',
-                                role: newUser.user_role  ? newUser.user_role : 'user',
-                                gender: newUser.gender ? newUser.gender : '',
-                                bio: newUser.bio  ? newUser.bio : '',
-                                address: {
-                                    address1: newUser.address1  ?newUser.address.address1 : '',
-                                    city: newUser.address.city  ? newUser.address.city : '',
-                                    state: newUser.address.state  ? newUser.address.state : '',
-                                    country: newUser.address.country  ? newUser.address.country : 'India',
-                                    zip: newUser.address.zip  ? newUser.address.zip : '',
-                                    location: {                                    
-                                        latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
-                                        longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
-                                    }
-                                },
-                                loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'EMAIL',
-                                oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
-                                mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
-                                email_verify: newUser.email_verify  ? newUser.email_verify : false,
-                                status: newUser.status  ? newUser.status : 'Y',
-                            };
-
-                        } 
-                        return res.json({ users: users, success: true, token: token });
-
-                    });
-                }).catch((err) => {
-                    fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
-                });
-
-        }).catch((err) => {
-            fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
-            return res.status(400).send({ success: false, message: 'Server error 22' });
-        });
-
-        }else {        
-            return res.json({ success: false, message:"FIELD MISSING" });
-        }
-    }
-    
-    
 }
 
+function createUserAccountSocialmedia(req, res) {
+
+    const { body } = req;
+
+    const { unique_id, loginby, user_type, gcmkey } = body;
+
+    if(unique_id && loginby && user_type && gcmkey){
+        
+
+        User.find({ user_oauth_id: unique_id, user_oauth_provider: loginby, status: 'Y' }).then(user => {
+            if (user.length > 0) {
+                        //const token = jwt.sign(user.toJSON(), config.secret);
+
+                        const token = generateToken(user);
+
+                        let users = {};
+
+                        const Access_Tab = new Access();
+
+                        if(token){
+                            Access_Tab.access_key = token;
+                            Access_Tab.user_id = user._id;
+                            Access_Tab.access_status = 'Y';
+                            Access_Tab.access_ip = ip.address();
+                        }
+
+                        Access_Tab.save();
+
+                        let rootdir = config.UPLOAD_DIR;
+                        let fpath = rootdir + '/' + user.profile_image;
+                        let filepath = fpath.replaceAll('\\', '/');
+
+                        if(user){
+                            users = {
+                                userId: user._id,
+                                firstName: user.first_name ? user.first_name : '',
+                                lastName: user.last_name ? user.last_name : '',
+                                email: user.email ? user.email : '',
+                                mobile: user.mobile  ? user.mobile : '',
+                                image: user.profile_image  ? filepath : '',
+                                role: user.user_role  ? user.user_role : 'user',
+                                gender: user.gender ? user.gender : '',
+                                bio: user.bio  ? user.bio : '',
+                                address: {
+                                    address1: user.address.address1  ? user.address.address1 : '',
+                                    city: user.address.city  ? user.address.city : '',
+                                    state: user.address.state  ? user.address.state : '',
+                                    country: user.address.country  ? user.address.country : 'India',
+                                    zip: user.address.zip  ? user.address.zip : '',
+                                    location: {                                    
+                                        latitude: user.address.location.latitude  ? user.address.location.latitude : '',
+                                        longitude: user.address.location.longitude  ? user.address.location.longitude : '',
+                                    }
+                                },
+                                loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'SOCIALMEDIA',
+                                oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
+                                mobile_verify: user.otp_verify  ? user.otp_verify : false,
+                                email_verify: user.email_verify  ? user.email_verify : false,
+                                status: user.status  ? user.status : 'Y',
+                            };
+
+                        }
+                        return res.json({ users: users, success: true, token: token });
+
+        }else{
+            let query = {};
+            User.countDocuments(query)
+            .then(() => {
+                const newUser = new User();                
+                newUser.user_oauth_id = unique_id;
+                newUser.user_oauth_provider = loginby;
+                
+                newUser.save((err) => {
+                    if (err) {
+                        return res.status(400).send({ success: true, message: 'Server error!' });
+                    }
+                    //const token = jwt.sign(newUser.toJSON(), config.secret);
+
+                    const token = generateToken(newUser);
+
+                    let users = {};
+
+                    const Access_Tab = new Access();
+
+                    if(token){
+                        Access_Tab.access_key = token;
+                        Access_Tab.user_id = newUser._id;
+                        Access_Tab.access_status = 'Y';
+                        Access_Tab.access_ip = ip.address();
+                    }
+
+                    Access_Tab.save();
+
+                    let gcmRegister_tab = new gcmRegister();
+
+                    if(gcmRegister_tab){
+                        gcmRegister_tab.user_id = newUser._id;
+                        gcmRegister_tab.user_type = user_type;
+                        gcmRegister_tab.gcm_id = gcmkey;
+                        gcmRegister_tab.gcm_status = 'Y';
+                    }
+                    gcmRegister_tab.save();
+                    
+
+                    let rootdir = config.UPLOAD_DIR;
+                    let fpath = rootdir + '/' + newUser.profile_image;
+                    let filepath = fpath.replaceAll('\\', '/');
+
+                    if(newUser){
+                        users = {
+                            userId: newUser._id,
+                            firstName: newUser.first_name ? newUser.first_name : '',
+                            lastName: newUser.last_name ? newUser.last_name : '',
+                            email: newUser.email ? newUser.email : '',
+                            mobile: newUser.mobile  ? newUser.mobile : '',
+                            image: newUser.profile_image  ? filepath : '',
+                            role: newUser.user_role  ? newUser.user_role : 'user',
+                            gender: newUser.gender ? newUser.gender : '',
+                            bio: newUser.bio  ? newUser.bio : '',
+                            address: {
+                                address1: newUser.address1  ?newUser.address.address1 : '',
+                                city: newUser.address.city  ? newUser.address.city : '',
+                                state: newUser.address.state  ? newUser.address.state : '',
+                                country: newUser.address.country  ? newUser.address.country : 'India',
+                                zip: newUser.address.zip  ? newUser.address.zip : '',
+                                location: {                                    
+                                    latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
+                                    longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
+                                }
+                            },
+                            loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'EMAIL',
+                            oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
+                            mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
+                            email_verify: newUser.email_verify  ? newUser.email_verify : false,
+                            status: newUser.status  ? newUser.status : 'Y',
+                        };
+
+                    } 
+                    return res.json({ users: users, success: true, token: token });
+
+                });
+            }).catch((err) => {
+                fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+            });
+        }
+        
+
+     }).catch((err) => {
+        fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
+        return res.status(400).send({ success: false, message: 'Account already registered' });
+    });
+    }else {
+        return res.json({ success: false, message:"FIELD MISSING" });
+    }
+}
 
 function checkAuthentication(req, res, next) {
     console.log(req);
@@ -950,6 +965,8 @@ function signOut(req, res) {
 
 module.exports = {
     createUserAccount,
+    createUserAccountByOTP,
+    createUserAccountSocialmedia,
     checkAuthentication,
     userLogin,
     forgotPass,
