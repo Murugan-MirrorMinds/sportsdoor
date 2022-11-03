@@ -751,7 +751,7 @@ function forgotPass(req, res, next) {
 
     User.findOne({ email: req.body.email, status: 'Y'})
             .then(user => {
-                if (!user) throw { success:true, status: 404, message: 'Account not found.' };
+                if (!user) return res.status(201).send({ success: false, message: 'Account not found.' });
                 return Promise.all([user, md5(genRandomPassword(32))])
                     .then(([user, buffer]) => {
                         const token = buffer.toString('hex');

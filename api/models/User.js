@@ -99,7 +99,7 @@ const UserSchema = new Schema({
     }
   ],
   my_teams: [
-    {
+    {        
         type: mongoose.Schema.Types.ObjectId,
         ref: 'team',
         default: ''

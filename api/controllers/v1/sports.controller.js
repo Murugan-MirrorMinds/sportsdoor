@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
 
-
 function addSport(req, res) {
     
 }

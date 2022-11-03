@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const cron = require('node-cron');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -13,10 +12,11 @@ const passport = require('passport');
 const helmet = require('helmet'); 
 const {errorHandler} = require('./lib/data.helpers');
 const config = require('./config/config');
-
+const {connectDB} = require('./config/db');
 
 // connect to MongoDB
-mongoose.connect(config.LOCAL_DB_URL, { useNewUrlParser: true });
+
+connectDB();
  
 
 app.use('/resources', express.static(__dirname + '/uploads'));

@@ -4,7 +4,6 @@ const sports = require('../../models/sports');
 const config = require('../../config/config');
 const jwt = require('jsonwebtoken');
 
-
 function getsportCategories(req, res) {
     let query = { status: 'Y' };
     if (req.body.keywords) {
