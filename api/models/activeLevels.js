@@ -12,6 +12,4 @@ const activeLevelsSchema = new Schema(
   }
 );
 
-const activeLevels = connection.model('activelevels', activeLevelsSchema, 'activelevels');
-
-module.exports = activeLevels;
+module.exports = mongoose.model('activelevels', activeLevelsSchema,'activelevels');

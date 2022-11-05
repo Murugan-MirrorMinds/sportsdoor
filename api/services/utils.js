@@ -53,6 +53,7 @@ const isAdmin = (req, res, next) => {
     if (user.user_role === 'admin') {
       req.user = user;
       req.userId = user._id;
+      req.role = 'admin';
       next();
       return;
     } 
@@ -68,6 +69,7 @@ const isPlayer = (req, res, next) => {
     if (user.user_role === 'user') {
       req.user = user;
       req.userId = user._id;
+      req.role = 'user';
       next();
       return;
     }

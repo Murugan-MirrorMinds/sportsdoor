@@ -12,6 +12,4 @@ const badgesSchema = new Schema(
   }
 );
 
-const reputationbadges = connection.model('reputationbadges', badgesSchema, 'reputationbadges');
-
-module.exports = reputationbadges;
+module.exports = mongoose.model('reputationbadges', badgesSchema,'reputationbadges');

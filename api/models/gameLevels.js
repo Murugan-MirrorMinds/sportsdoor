@@ -12,6 +12,4 @@ const gameLevelsSchema = new Schema(
   }
 );
 
-const gameLevels = connection.model('gamelevels', gameLevelsSchema, 'gamelevels');
-
-module.exports = gameLevels;
+module.exports = mongoose.model('gamelevels', gameLevelsSchema,'gamelevels');

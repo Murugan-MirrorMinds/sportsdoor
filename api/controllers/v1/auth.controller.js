@@ -22,7 +22,7 @@ const {
 function createUserAccount(req, res) {
 
     const { body } = req;
-    const { name, email, mobile, password, unique_id, register_by, user_type, gcmkey } = body.userData;
+    const { name, email, mobile, password, unique_id, register_by, user_type, gcmkey } = body;
 
     if(register_by=='MOBILE'){
 
@@ -38,8 +38,10 @@ function createUserAccount(req, res) {
                         newUser.mobile = mobile;
                         newUser.first_name = name;
                         newUser.user_role = 'user';                
+                        newUser.address = [];
                         newUser.address.location = '';
                         newUser.otp='1111';
+                        newUser.user_oauth_provider = 'MOBILE';
                         
                         newUser.save((err) => {
                             if (err) {
@@ -93,7 +95,7 @@ function createUserAccount(req, res) {
                             
 
                             let rootdir = config.UPLOAD_DIR;
-                            let fpath = rootdir + '/' + newUser.profile_image;
+                            let fpath = rootdir + '/user/' + newUser.profile_image;
                             let filepath = fpath.replaceAll('\\', '/');
 
                             if(newUser){
@@ -108,7 +110,7 @@ function createUserAccount(req, res) {
                                     gender: newUser.gender ? newUser.gender : '',
                                     bio: newUser.bio  ? newUser.bio : '',
                                     address: {
-                                        address1: newUser.address1  ?newUser.address.address1 : '',
+                                        address1: newUser.address.address1  ?newUser.address.address1 : '',
                                         city: newUser.address.city  ? newUser.address.city : '',
                                         state: newUser.address.state  ? newUser.address.state : '',
                                         country: newUser.address.country  ? newUser.address.country : 'India',
@@ -146,68 +148,79 @@ function createUserAccount(req, res) {
 
          if(unique_id && register_by && user_type && gcmkey){            
 
-            User.find({ user_oauth_id: unique_id, user_oauth_provider: register_by, status: 'Y' }).then(user => {
+            User.findOne({ user_oauth_id: unique_id, user_oauth_provider: register_by, status: 'Y' }).then(user => {
+               
                 if (user.length > 0) {
-                            //const token = jwt.sign(user.toJSON(), config.secret);
+                    const token = generateToken(user);
 
-                            const token = generateToken(user);
+                    let users = {};
 
-                            let users = {};
+                    const Access_Tab = new Access();
 
-                            const Access_Tab = new Access();
+                    if(token){
+                        Access_Tab.access_key = token;
+                        Access_Tab.user_id = user._id;
+                        Access_Tab.access_status = 'Y';
+                        Access_Tab.access_ip = ip.address();
+                    }
 
-                            if(token){
-                                Access_Tab.access_key = token;
-                                Access_Tab.user_id = user._id;
-                                Access_Tab.access_status = 'Y';
-                                Access_Tab.access_ip = ip.address();
-                            }
+                    Access_Tab.save();
 
-                            Access_Tab.save();
+                    let rootdir = config.UPLOAD_DIR;
+                    let fpath = '';
+                    let filepath = '';
 
-                            let rootdir = config.UPLOAD_DIR;
-                            let fpath = rootdir + '/' + user.profile_image;
-                            let filepath = fpath.replaceAll('\\', '/');
-
-                            if(user){
-                                users = {
-                                    userId: user._id,
-                                    firstName: user.first_name ? user.first_name : '',
-                                    lastName: user.last_name ? user.last_name : '',
-                                    email: user.email ? user.email : '',
-                                    mobile: user.mobile  ? user.mobile : '',
-                                    image: user.profile_image  ? filepath : '',
-                                    role: user.user_role  ? user.user_role : 'user',
-                                    gender: user.gender ? user.gender : '',
-                                    bio: user.bio  ? user.bio : '',
-                                    address: {
-                                        address1: user.address.address1  ? user.address.address1 : '',
-                                        city: user.address.city  ? user.address.city : '',
-                                        state: user.address.state  ? user.address.state : '',
-                                        country: user.address.country  ? user.address.country : 'India',
-                                        zip: user.address.zip  ? user.address.zip : '',
-                                        location: {                                    
-                                            latitude: user.address.location.latitude  ? user.address.location.latitude : '',
-                                            longitude: user.address.location.longitude  ? user.address.location.longitude : '',
-                                        }
-                                    },
-                                    loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'SOCIALMEDIA',
-                                    oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
-                                    mobile_verify: user.otp_verify  ? user.otp_verify : false,
-                                    email_verify: user.email_verify  ? user.email_verify : false,
-                                    status: user.status  ? user.status : 'Y',
-                                };
-
-                            }
-                            return res.json({ users: users, success: true, token: token });
-
-            }else{
+                    if(user.profile_image){
+                        fpath = rootdir + '/user/' + user.profile_image;
+                        filepath = fpath.replaceAll('\\', '/');
+                    }
+                    
+                     if(user){
+                        users = {
+                            userId: user._id,
+                            firstName: user.first_name ? user.first_name : '',
+                            lastName: user.last_name ? user.last_name : '',
+                            email: user.email ? user.email : '',
+                            mobile: user.mobile  ? user.mobile : '',
+                            image: user.profile_image  ? filepath : '',
+                            role: user.user_role  ? user.user_role : 'user',
+                            gender: user.gender ? user.gender : '',
+                            bio: user.bio  ? user.bio : '',     
+                            address: {
+                                address1: user.address ? user.address.address1 ? user.address.address1 : '':'',
+                                city: user.address ? user.address.city ? user.address.city : '':'',
+                                state: user.address ? user.address.state ? user.address.state : '':'',
+                                country: user.address ? user.address.country ? user.address.country : '':'India',
+                                zip: user.address ? user.address.zip ? user.address.zip : '':'',
+                                location: {                                    
+                                    latitude: user.location ? user.address.location.latitude  ? user.address.location.latitude : '':'',
+                                    longitude: user.location ? user.address.location.longitude  ? user.address.location.longitude : '':'',
+                                }
+                            },                       
+                            loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'SOCIAL_MEDIA',
+                            oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
+                            mobile_verify: user.otp_verify  ? user.otp_verify : false,
+                            email_verify: user.email_verify  ? user.email_verify : false,
+                            status: user.status  ? user.status : 'Y',
+                        };
+                        
+                        return res.json({ users: users, success: true, token: token });
+                     }else{
+                        return res.json({ users: [], success: true, token: token });
+                     }
+                }else{
                 let query = {};
                 User.countDocuments(query)
                 .then(() => {
                     const newUser = new User();                
                     newUser.user_oauth_id = unique_id;
                     newUser.user_oauth_provider = register_by;
+                    newUser.address = [];
+                    newUser.address.location = '';        
+                    newUser.mobile = (mobile)?mobile:'';
+                    newUser.first_name = (name)?name:'';
+                    newUser.email = (email)?email:'';
+                  
                     
                     newUser.save((err) => {
                         if (err) {
@@ -242,7 +255,7 @@ function createUserAccount(req, res) {
                         
 
                         let rootdir = config.UPLOAD_DIR;
-                        let fpath = rootdir + '/' + newUser.profile_image;
+                        let fpath = rootdir + '/user/' + newUser.profile_image;
                         let filepath = fpath.replaceAll('\\', '/');
 
                         if(newUser){
@@ -257,7 +270,7 @@ function createUserAccount(req, res) {
                                 gender: newUser.gender ? newUser.gender : '',
                                 bio: newUser.bio  ? newUser.bio : '',
                                 address: {
-                                    address1: newUser.address1  ?newUser.address.address1 : '',
+                                    address1: newUser.address.address1?newUser.address.address1 : '',
                                     city: newUser.address.city  ? newUser.address.city : '',
                                     state: newUser.address.state  ? newUser.address.state : '',
                                     country: newUser.address.country  ? newUser.address.country : 'India',
@@ -281,10 +294,10 @@ function createUserAccount(req, res) {
                 }).catch((err) => {
                     fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
                 });
-            }
-            
+            }                
 
         }).catch((err) => {
+               console.log(err);
             fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
             return res.status(400).send({ success: false, message: 'Account already registered' });
         });
@@ -306,7 +319,9 @@ function createUserAccount(req, res) {
                     newUser.first_name = name;
                     newUser.mobile = '';
                     newUser.user_role = 'user';
+                    newUser.address = [];
                     newUser.address.location = '';
+                    newUser.user_oauth_provider = 'EMAIL';
                     var passwordSalt = genRandomPassword(32);
                     var userPassword = getCryptedPassword(password, passwordSalt);
                     newUser.password = userPassword + ':' + passwordSalt;
@@ -368,7 +383,7 @@ function createUserAccount(req, res) {
                         gcmRegister_tab.save();
 
                         let rootdir = config.UPLOAD_DIR;
-                        let fpath = rootdir + '/' + newUser.profile_image;
+                        let fpath = rootdir + '/user/' + newUser.profile_image;
                         let filepath = fpath.replaceAll('\\', '/');
 
                         if(newUser){
@@ -383,7 +398,7 @@ function createUserAccount(req, res) {
                                 gender: newUser.gender ? newUser.gender : '',
                                 bio: newUser.bio  ? newUser.bio : '',
                                 address: {
-                                    address1: newUser.address1  ?newUser.address.address1 : '',
+                                    address1: newUser.address.address1  ?newUser.address.address1 : '',
                                     city: newUser.address.city  ? newUser.address.city : '',
                                     state: newUser.address.state  ? newUser.address.state : '',
                                     country: newUser.address.country  ? newUser.address.country : 'India',
@@ -444,15 +459,7 @@ function checkAuthentication(req, res, next) {
 
 function userLogin(req, res, next) {
     const { body } = req;
-    const {
-        email,
-        mobile,
-        password,
-        user_type,
-        gcmkey,
-        loginby,
-        unique_id
-    } = body;
+    const { email, mobile, password, user_type, gcmkey, loginby, unique_id } = body;
 
     if(loginby=='EMAIL'){
 
@@ -510,7 +517,7 @@ function userLogin(req, res, next) {
             gcmRegister_tab.save();
 
             let rootdir = config.UPLOAD_DIR;
-            let fpath = rootdir + '/' + user.profile_image;
+            let fpath = rootdir + '/user/' + user.profile_image;
             let filepath = fpath.replaceAll('\\', '/');
 
             if(user){
@@ -546,9 +553,9 @@ function userLogin(req, res, next) {
             return res.json({ users: users, success: true, token: token });
         }
     });
-        }else {
-            return res.json({ success: false, message:"FIELD MISSING" });
-        }
+    }else {
+        return res.json({ success: false, message:"FIELD MISSING" });
+    }
         
     }
     else if(loginby=='MOBILE'){
@@ -598,7 +605,7 @@ function userLogin(req, res, next) {
                     gcmRegister_tab.save();
 
                     let rootdir = config.UPLOAD_DIR;
-                    let fpath = rootdir + '/' + user.profile_image;
+                    let fpath = rootdir + '/user/' + user.profile_image;
                     let filepath = fpath.replaceAll('\\', '/');
 
                     if(user){
@@ -682,7 +689,7 @@ function userLogin(req, res, next) {
                     gcmRegister_tab.save();
 
                     let rootdir = config.UPLOAD_DIR;
-                    let fpath = rootdir + '/' + user.profile_image;
+                    let fpath = rootdir + '/user/' + user.profile_image;
                     let filepath = fpath.replaceAll('\\', '/');
 
                     if(user){
@@ -723,10 +730,6 @@ function userLogin(req, res, next) {
                 return res.json({ success: false, message:"FIELD MISSING" });
             }
     }
-
-    
-
-
 
 }
 function forgotPass(req, res, next) {
@@ -809,9 +812,11 @@ function resetPass(req, res, next) {
 }
 function verifyOTP(req, res) {
 
-    const { mobile, otp } = req.body;
+    const { email, mobile, otp, type } = req.body;
 
-    if(mobile && otp){
+    if(type=='MOBILE'){
+
+        if(mobile && otp){
         User.findOne({ mobile: mobile, status: 'Y' }).then(user => {
             
            if(user.otp != otp){
@@ -827,28 +832,28 @@ function verifyOTP(req, res) {
     }else {
         return res.json({ success: false, message:"FIELD MISSING" });
     }
-}
-function verifyEmail(req, res) {
 
-    const { email, otp } = req.body;
+    }else{
+        if(email && otp){
+            User.findOne({ email: email, status: 'Y' }).then(user => {
+                
+            if(user.email_verify_code != otp){
+                    return res.status(400).send({ success: false, message: 'Invalid OTP' });
+            }else{
+                    user.email_verify_code ='';
+                    user.email_verify = true;
+                    user.save();
+                    return res.status(400).send({ success: true, message: 'Email Address Verified Successfuly' });
+            }
 
-    if(email && otp){
-        User.findOne({ email: email, status: 'Y' }).then(user => {
-            
-           if(user.email_verify_code != otp){
-                return res.status(400).send({ success: false, message: 'Invalid OTP' });
-           }else{
-                user.email_verify_code ='';
-                user.email_verify = true;
-                user.save();
-                return res.status(400).send({ success: true, message: 'Email Address Verified Successfuly' });
-           }
-
-        });
-    }else {
-        return res.json({ success: false, message:"FIELD MISSING" });
+            });
+        }else {
+            return res.json({ success: false, message:"FIELD MISSING" });
+        }
     }
+    
 }
+
 function resendOTP(req, res) {
 
     const { email, mobile } = req.body;
@@ -955,7 +960,6 @@ module.exports = {
     forgotPass,
     resetPass,
     verifyOTP,
-    verifyEmail,
     resendOTP,
     signOut
 };

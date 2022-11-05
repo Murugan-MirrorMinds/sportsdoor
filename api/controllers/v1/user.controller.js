@@ -1,7 +1,6 @@
 const User = require('../../models/User');
 const path = require('path');
 const fs = require('fs');
-const {ObjectId} = require('mongodb');
 
 function getUserInfo(req, res) {
     var user_id = req.user._id;
