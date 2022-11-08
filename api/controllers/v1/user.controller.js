@@ -143,7 +143,7 @@ function addMySportsById(req, res) {
 
     var user_id = req.user._id;
 
-    let sports = req.body.sport;
+    let sport = req.body.sport;
 
    // let mysports 
 /* const elementToPush = { a: 1, b: 2 };
@@ -159,7 +159,7 @@ model.patch(id, body); */
 
  */
 
-    /* let sports = [];
+    let sports = [];
 
         sport.forEach(function(u) {
         let intr = {
@@ -167,8 +167,14 @@ model.patch(id, body); */
             "level": (u.level)?u.level:''
         };
         sports.push(intr);
-    });  */
-    
+    });  
+
+/* 
+    var new_arr = [];
+    for (var i = 0; i < req.body.length; i++) {
+        new_arr.push(new mongodb.ObjectID(req.body[i]))
+    }
+     */
     User.findOneAndUpdate({ _id: user_id }, {$push: { "$.my_sports": { sports }  }}, (err, data) => {
         if (err) {
             return res.status(500).json({ error: err });
