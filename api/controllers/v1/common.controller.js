@@ -114,6 +114,7 @@ function getintro(req, res) {
     let status = (req.body.status)?req.body.status:'Y';
     let query = { status: status };
 
+    console.log(query);
     intro.find(query, {_id:0, image_name:1, image_title:1, image_desc:1}).sort({ image_pos : 1})
         .then(results => {
             if (results.length === 0) 

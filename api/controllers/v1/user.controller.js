@@ -1,6 +1,7 @@
 const User = require('../../models/User');
 const path = require('path');
 const fs = require('fs');
+const { ObjectId } = require('mongodb');
 
 function getUserInfo(req, res) {
     var user_id = req.user._id;
@@ -142,13 +143,40 @@ function addMySportsById(req, res) {
 
     var user_id = req.user._id;
 
-    let sport = req.body.sport;
+    let sports = req.body.sport;
 
-    let sportId = sport.sportId;
-    let level = sport.level;
+   // let mysports 
+/* const elementToPush = { a: 1, b: 2 };
+const body = { $push: { arrayField: elementToPush } };
+model.patch(id, body); */
+    //db.collection.updateOne({ _id : <SOME ID>}, {$push : { name : "john" }});
+    //User.updateOne({ _id:user_id }, { $push: { "my_sports": { "sportId": sportId, "level": level } } })
 
-    User.updateOne({ _id:user_id }, { $push: { "my_sports": { "sportId": sportId, "level": level } } })
-    .then(() => {
+    /*  const updateDocument = {
+      $push: { "items.$[].toppings": "fresh mozzarella" }
+    };
+    const result = await pizza.updateOne(query, updateDocument);
+
+ */
+
+    /* let sports = [];
+
+        sport.forEach(function(u) {
+        let intr = {
+            "sportId": (u.sportId)?u.sportId:'',
+            "level": (u.level)?u.level:''
+        };
+        sports.push(intr);
+    });  */
+    
+    User.findOneAndUpdate({ _id: user_id }, {$push: { "$.my_sports": { sports }  }}, (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: err });
+        }
+        return res.json(data);   
+    }, { new: true });
+
+    /* User.updateOne({ _id: user_id }, { $push: { my_sports: { sportId: sportId } } }).then(() => {
         User.findById({_id:user_id}).then(userinfo => {
 
             return res.json({ success: true, message: 'Sport added into my list successfully', Users: userinfo });
@@ -160,7 +188,7 @@ function addMySportsById(req, res) {
     }).catch((err) => {
         fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);
         return res.json({ success: false, message: err });
-    });   
+    });  */  
 }
 function addMyLocationById(req, res) {
 
@@ -173,11 +201,11 @@ function mySports(req, res) {
         if (!user) return res.json( { success: true, message: 'Invalid account.' });
 
         User.findById({_id:user_id},{_id:0, my_sports:1}).populate({
-                path : 'my_sports.sportId',
-                select:'sport_name',
+                path : 'my_sports',
+                select:'my_sports.sport_name',
             }).then(sportslist => {
 
-            return res.json({ success: true, message: 'My Sports', mysports:sportslist });
+            return res.json({ success: true, message: 'My Sports', mysports: sportslist.my_sports });
 
         }).catch((err) => {
             fs.appendFileSync(path.join(__dirname, '../../logs/error_logs.txt'), `\n ${err} || ${new Date()}`);

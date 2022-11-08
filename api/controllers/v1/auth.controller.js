@@ -39,7 +39,15 @@ function createUserAccount(req, res) {
                         newUser.first_name = name;
                         newUser.user_role = 'user';                
                         newUser.address = [];
+                        newUser.my_teams = [];
+                        newUser.fav_venues = [];
+                        newUser.fav_shops = [];
+                        newUser.fav_academics = [];
                         newUser.address.location = '';
+                        newUser.my_sports = [];
+                        newUser.my_sports.sportId = '';
+                        newUser.my_sports.level = '';
+                        newUser.dob='';
                         newUser.otp='1111';
                         newUser.user_oauth_provider = 'MOBILE';
                         
@@ -107,19 +115,16 @@ function createUserAccount(req, res) {
                                     mobile: newUser.mobile  ? newUser.mobile : '',
                                     image: newUser.profile_image  ? filepath : '',
                                     role: newUser.user_role  ? newUser.user_role : 'user',
-                                    gender: newUser.gender ? newUser.gender : '',
                                     bio: newUser.bio  ? newUser.bio : '',
-                                    address: {
-                                        address1: newUser.address.address1  ?newUser.address.address1 : '',
-                                        city: newUser.address.city  ? newUser.address.city : '',
-                                        state: newUser.address.state  ? newUser.address.state : '',
-                                        country: newUser.address.country  ? newUser.address.country : 'India',
-                                        zip: newUser.address.zip  ? newUser.address.zip : '',
-                                        location: {                                    
-                                            latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
-                                            longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
-                                        }
-                                    },
+                                    address: newUser.address ? newUser.address : [],
+                                    gender: newUser.gender ? newUser.gender : '',
+                                    dob: newUser.dob  ? newUser.dob : '',
+                                    fitness_level: newUser.fitness_level  ? newUser.fitness_level : '',
+                                    my_sports: newUser.my_sports ? newUser.my_sports : [],
+                                    my_teams: newUser.my_teams ? newUser.my_teams : [],
+                                    fav_venues: newUser.fav_venues ? newUser.fav_venues : [],
+                                    fav_shops: newUser.fav_shops ? newUser.fav_shops : [],
+                                    fav_academics: newUser.fav_academics ? newUser.fav_academics : [],
                                     loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'MOBILE',
                                     oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
                                     mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
@@ -184,19 +189,16 @@ function createUserAccount(req, res) {
                             mobile: user.mobile  ? user.mobile : '',
                             image: user.profile_image  ? filepath : '',
                             role: user.user_role  ? user.user_role : 'user',
+                            bio: user.bio  ? user.bio : '',      
+                            address: newUser.address ? newUser.address : [],
                             gender: user.gender ? user.gender : '',
-                            bio: user.bio  ? user.bio : '',     
-                            address: {
-                                address1: user.address ? user.address.address1 ? user.address.address1 : '':'',
-                                city: user.address ? user.address.city ? user.address.city : '':'',
-                                state: user.address ? user.address.state ? user.address.state : '':'',
-                                country: user.address ? user.address.country ? user.address.country : '':'India',
-                                zip: user.address ? user.address.zip ? user.address.zip : '':'',
-                                location: {                                    
-                                    latitude: user.location ? user.address.location.latitude  ? user.address.location.latitude : '':'',
-                                    longitude: user.location ? user.address.location.longitude  ? user.address.location.longitude : '':'',
-                                }
-                            },                       
+                            dob: user.dob  ? user.dob : '',
+                            fitness_level: newUser.fitness_level  ? newUser.fitness_level : '',
+                            my_sports: newUser.my_sports ? newUser.my_sports : [],     
+                            my_teams: newUser.my_teams ? newUser.my_teams : [],
+                            fav_venues: newUser.fav_venues ? newUser.fav_venues : [],
+                            fav_shops: newUser.fav_shops ? newUser.fav_shops : [],
+                            fav_academics: newUser.fav_academics ? newUser.fav_academics : [],                  
                             loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'SOCIAL_MEDIA',
                             oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
                             mobile_verify: user.otp_verify  ? user.otp_verify : false,
@@ -216,10 +218,14 @@ function createUserAccount(req, res) {
                     newUser.user_oauth_id = unique_id;
                     newUser.user_oauth_provider = register_by;
                     newUser.address = [];
-                    newUser.address.location = '';        
+                    newUser.address.location = '';    
+                    newUser.sports = [];
+                    newUser.sports.sportId = '';
+                    newUser.sports.level = '';    
                     newUser.mobile = (mobile)?mobile:'';
                     newUser.first_name = (name)?name:'';
                     newUser.email = (email)?email:'';
+                    newUser.dob='';
                   
                     
                     newUser.save((err) => {
@@ -267,19 +273,16 @@ function createUserAccount(req, res) {
                                 mobile: newUser.mobile  ? newUser.mobile : '',
                                 image: newUser.profile_image  ? filepath : '',
                                 role: newUser.user_role  ? newUser.user_role : 'user',
-                                gender: newUser.gender ? newUser.gender : '',
                                 bio: newUser.bio  ? newUser.bio : '',
-                                address: {
-                                    address1: newUser.address.address1?newUser.address.address1 : '',
-                                    city: newUser.address.city  ? newUser.address.city : '',
-                                    state: newUser.address.state  ? newUser.address.state : '',
-                                    country: newUser.address.country  ? newUser.address.country : 'India',
-                                    zip: newUser.address.zip  ? newUser.address.zip : '',
-                                    location: {                                    
-                                        latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
-                                        longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
-                                    }
-                                },
+                                address: newUser.address ? newUser.address : [],
+                                gender: newUser.gender ? newUser.gender : '',
+                                dob: newUser.dob  ? newUser.dob : '',
+                                fitness_level: newUser.fitness_level  ? newUser.fitness_level : '',
+                                my_sports: newUser.my_sports ? newUser.my_sports : [],
+                                my_teams: newUser.my_teams ? newUser.my_teams : [],
+                                fav_venues: newUser.fav_venues ? newUser.fav_venues : [],
+                                fav_shops: newUser.fav_shops ? newUser.fav_shops : [],
+                                fav_academics: newUser.fav_academics ? newUser.fav_academics : [],
                                 loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'EMAIL',
                                 oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
                                 mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
@@ -321,6 +324,9 @@ function createUserAccount(req, res) {
                     newUser.user_role = 'user';
                     newUser.address = [];
                     newUser.address.location = '';
+                    newUser.sports = [];
+                    newUser.sports.sportId = '';
+                    newUser.sports.level = '';
                     newUser.user_oauth_provider = 'EMAIL';
                     var passwordSalt = genRandomPassword(32);
                     var userPassword = getCryptedPassword(password, passwordSalt);
@@ -394,20 +400,17 @@ function createUserAccount(req, res) {
                                 email: newUser.email ? newUser.email : '',
                                 mobile: newUser.mobile  ? newUser.mobile : '',
                                 image: newUser.profile_image  ? filepath : '',
-                                role: newUser.user_role  ? newUser.user_role : 'user',
-                                gender: newUser.gender ? newUser.gender : '',
+                                role: newUser.user_role  ? newUser.user_role : 'user',                                
                                 bio: newUser.bio  ? newUser.bio : '',
-                                address: {
-                                    address1: newUser.address.address1  ?newUser.address.address1 : '',
-                                    city: newUser.address.city  ? newUser.address.city : '',
-                                    state: newUser.address.state  ? newUser.address.state : '',
-                                    country: newUser.address.country  ? newUser.address.country : 'India',
-                                    zip: newUser.address.zip  ? newUser.address.zip : '',
-                                    location: {                                    
-                                        latitude: newUser.address.location.latitude  ? newUser.address.location.latitude : '',
-                                        longitude: newUser.address.location.longitude  ? newUser.address.location.longitude : '',
-                                    }
-                                },
+                                address: newUser.address ? newUser.address : [],
+                                gender: newUser.gender ? newUser.gender : '',
+                                dob: newUser.dob  ? newUser.dob : '',
+                                fitness_level: newUser.fitness_level  ? newUser.fitness_level : '',
+                                my_sports: newUser.my_sports ? newUser.my_sports : [],
+                                my_teams: newUser.my_teams ? newUser.my_teams : [],
+                                fav_venues: newUser.fav_venues ? newUser.fav_venues : [],
+                                fav_shops: newUser.fav_shops ? newUser.fav_shops : [],
+                                fav_academics: newUser.fav_academics ? newUser.fav_academics : [],
                                 loginBy: newUser.user_oauth_provider  ? newUser.user_oauth_provider : 'EMAIL',
                                 oauthId: newUser.user_oauth_id  ? newUser.user_oauth_id : '',
                                 mobile_verify: newUser.otp_verify  ? newUser.otp_verify : false,
@@ -529,19 +532,16 @@ function userLogin(req, res, next) {
                     mobile: user.mobile  ? user.mobile : '',
                     image: user.profile_image  ? filepath : '',
                     role: user.user_role  ? user.user_role : 'user',
-                    gender: user.gender ? user.gender : '',
                     bio: user.bio  ? user.bio : '',
-                    address: {
-                      address1: user.address.address1  ? user.address.address1 : '',
-                      city: user.address.city  ? user.address.city : '',
-                      state: user.address.state  ? user.address.state : '',
-                      country: user.address.country  ? user.address.country : 'India',
-                      zip: user.address.zip  ? user.address.zip : '',
-                      location: {                                    
-                            latitude: user.address.location  ? (user.address.location.latitude)?user.address.location.latitude:'' : '',
-                            longitude: user.address.location  ? (user.address.location.longitude)?user.address.location.longitude:'' : '',
-                        }
-                    },
+                    address: user.address ? user.address : [],               
+                    gender: user.gender ? user.gender : '',
+                    dob: user.dob  ? user.dob : '',
+                    fitness_level: user.fitness_level  ? user.fitness_level : '', 
+                    my_sports: user.my_sports ? user.my_sports : [],
+                    my_teams: user.my_teams ? user.my_teams : [],
+                    fav_venues: user.fav_venues ? user.fav_venues : [],
+                    fav_shops: user.fav_shops ? user.fav_shops : [],
+                    fav_academics: user.fav_academics ? user.fav_academics : [],
                     loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'EMAIL',
                     oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
                     mobile_verify: user.otp_verify  ? user.otp_verify : false,
@@ -549,7 +549,7 @@ function userLogin(req, res, next) {
                     status: user.status  ? user.status : 'Y',
                   };
 
-            }
+            }           
             return res.json({ users: users, success: true, token: token });
         }
     });
@@ -617,19 +617,16 @@ function userLogin(req, res, next) {
                             mobile: user.mobile  ? user.mobile : '',
                             image: user.profile_image  ? filepath : '',
                             role: user.user_role  ? user.user_role : 'user',
-                            gender: user.gender ? user.gender : '',
                             bio: user.bio  ? user.bio : '',
-                            address: {
-                                address1: user.address.address1  ? user.address.address1 : '',
-                                city: user.address.city  ? user.address.city : '',
-                                state: user.address.state  ? user.address.state : '',
-                                country: user.address.country  ? user.address.country : 'India',
-                                zip: user.address.zip  ? user.address.zip : '',
-                                location: {                                    
-                                    latitude: user.address.location  ? (user.address.location.latitude)?user.address.location.latitude:'' : '',
-                                    longitude: user.address.location  ? (user.address.location.longitude)?user.address.location.longitude:'' : '',
-                                }
-                            },
+                            address: user.address ? user.address : [],
+                            gender: user.gender ? user.gender : '',
+                            dob: user.dob  ? user.dob : '',
+                            fitness_level: user.fitness_level  ? user.fitness_level : '', 
+                            my_sports: user.my_sports ? user.my_sports : [],
+                            my_teams: user.my_teams ? user.my_teams : [],
+                            fav_venues: user.fav_venues ? user.fav_venues : [],
+                            fav_shops: user.fav_shops ? user.fav_shops : [],
+                            fav_academics: user.fav_academics ? user.fav_academics : [],
                             loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'MOBILE',
                             oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
                             mobile_verify: user.otp_verify  ? user.otp_verify : false,
@@ -701,20 +698,17 @@ function userLogin(req, res, next) {
                             mobile: user.mobile  ? user.mobile : '',
                             image: user.profile_image  ? filepath : '',
                             role: user.user_role  ? user.user_role : 'user',
-                            gender: user.gender ? user.gender : '',
                             bio: user.bio  ? user.bio : '',
-                            address: {
-                            address1: user.address.address1  ? user.address.address1 : '',
-                            city: user.address.city  ? user.address.city : '',
-                            state: user.address.state  ? user.address.state : '',
-                            country: user.address.country  ? user.address.country : 'India',
-                            zip: user.address.zip  ? user.address.zip : '',
-                            location: {                                    
-                                latitude: user.address.location  ? (user.address.location.latitude)?user.address.location.latitude:'' : '',
-                                longitude: user.address.location  ? (user.address.location.longitude)?user.address.location.longitude:'' : '',
-                            }
-                            },
-                            loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'SOCIALMEDIA',
+                            address: user.address ? user.address : [],
+                            gender: user.gender ? user.gender : '',
+                            dob: user.dob  ? user.dob : '',
+                            fitness_level: user.fitness_level  ? user.fitness_level : '', 
+                            my_sports: user.my_sports ? user.my_sports : [],
+                            my_teams: user.my_teams ? user.my_teams : [],
+                            fav_venues: user.fav_venues ? user.fav_venues : [],
+                            fav_shops: user.fav_shops ? user.fav_shops : [],
+                            fav_academics: user.fav_academics ? user.fav_academics : [],
+                            loginBy: user.user_oauth_provider  ? user.user_oauth_provider : 'SOCIAL_MEDIA',
                             oauthId: user.user_oauth_id  ? user.user_oauth_id : '',            
                             mobile_verify: user.otp_verify  ? user.otp_verify : false,
                             email_verify: user.email_verify  ? user.email_verify : false,
@@ -818,8 +812,10 @@ function verifyOTP(req, res) {
 
         if(mobile && otp){
         User.findOne({ mobile: mobile, status: 'Y' }).then(user => {
+
+           let userotp = user.otp ? user.otp :'';
             
-           if(user.otp != otp){
+           if(userotp != otp){
                 return res.status(400).send({ success: false, message: 'Invalid OTP' });
            }else{
                 user.otp ='';
@@ -836,8 +832,10 @@ function verifyOTP(req, res) {
     }else{
         if(email && otp){
             User.findOne({ email: email, status: 'Y' }).then(user => {
+
+            let userotp = user.email_verify_code ? user.email_verify_code :'';
                 
-            if(user.email_verify_code != otp){
+            if(userotp != otp){
                     return res.status(400).send({ success: false, message: 'Invalid OTP' });
             }else{
                     user.email_verify_code ='';

@@ -1,0 +1,659 @@
+[{
+  "_id": {
+    "$oid": "635fad3d1eb607b938adb1e4"
+  },
+  "first_name": "Murugan",
+  "last_name": "Amirthalignam",
+  "mobile": "7871975184",
+  "email": "amurugan1993@gmail.com",
+  "password": "8846145a31794477968ec3f292543942:LAOSlzFg1ZypbSQlhUXtXycMo6ysdRCx",
+  "profile_image": "1667293635625.jpeg",
+  "user_role": "admin",
+  "bio": "I'm fond of my sports",
+  "gender": "M",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "",
+  "user_oauth_id": "",
+  "email_verify_code": "",
+  "email_verify": true,
+  "otp": "",
+  "otp_verify": true,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667214653879"
+    }
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667214653893"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667632124295"
+    }
+  },
+  "__v": 0,
+  "my_sports": [
+    {
+      "sportId": {
+        "$oid": "635b9c63d7ee5f10da94171a"
+      },
+      "level": ""
+    }
+  ],
+  "resetPasswordExpires": {
+    "$date": {
+      "$numberLong": "1667718524293"
+    }
+  },
+  "resetPasswordToken": "04e08249eb397ebb862487175942f589"
+},{
+  "_id": {
+    "$oid": "635fb0daaf88855e8b4dff01"
+  },
+  "first_name": "Praveen",
+  "last_name": "",
+  "mobile": "9876543212",
+  "email": "",
+  "password": "",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "",
+  "user_oauth_id": "",
+  "email_verify_code": "",
+  "email_verify": false,
+  "otp": "",
+  "otp_verify": true,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667215578194"
+    }
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667215578204"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667215656542"
+    }
+  },
+  "__v": 0,
+  "my_sports": []
+},{
+  "_id": {
+    "$oid": "6365ee919a5d04590eb72f45"
+  },
+  "first_name": "Murugan",
+  "last_name": "",
+  "mobile": "",
+  "email": "amurugan2193@gmail.com",
+  "password": "26d0eafc1e3ad087119efb49c7e06a31:p0NXEQbhsOSbVyapprSe3hkIosXKRtcg",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "",
+  "user_oauth_id": "",
+  "email_verify_code": "1111",
+  "email_verify": false,
+  "otp": "1111",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667624593973"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667624593984"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667624593984"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6365efce4e82295ea8435fc1"
+  },
+  "first_name": "Murugan",
+  "last_name": "",
+  "mobile": "",
+  "email": "amurugan2293@gmail.com",
+  "password": "8fc816e6297b8e2763f8303c9502d42f:cTHgk1DGTZYV0wbIoasCPlRTGNwUfirf",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "",
+  "user_oauth_id": "",
+  "email_verify_code": "1111",
+  "email_verify": false,
+  "otp": "1111",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667624910108"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667624910119"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667624910119"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6365f57d07c781e1f8bceeb8"
+  },
+  "first_name": "Murugan",
+  "last_name": "",
+  "mobile": "",
+  "email": "amurugan2393@gmail.com",
+  "password": "1fd92804b53adb6dc46650fee6753bd7:KuYkC3fXW1yBmCPmSaUkEiXdD8PcO1j2",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "EMAIL",
+  "user_oauth_id": "",
+  "email_verify_code": "",
+  "email_verify": true,
+  "otp": "1111",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667626365664"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667626365677"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667633104252"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63660c8d37ee299a5b728824"
+  },
+  "first_name": "Praveen",
+  "last_name": "",
+  "mobile": "9878543212",
+  "email": "",
+  "password": "",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "MOBILE",
+  "user_oauth_id": "",
+  "email_verify_code": "",
+  "email_verify": false,
+  "otp": "",
+  "otp_verify": true,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667632269656"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667632269663"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667632925132"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6366162539d0a98cebe7dbed"
+  },
+  "first_name": "Murugan Amirthalingam",
+  "last_name": "",
+  "mobile": "",
+  "email": "amurugan.mirrorminds93@gmail.com",
+  "password": "",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "SOCIAL_MEDIA",
+  "user_oauth_id": "amurugan.mirrorminds93@gmail.com",
+  "email_verify_code": "",
+  "email_verify": false,
+  "otp": "",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667634725644"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667634725645"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667634725645"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "636616e8e3e193bc6307af43"
+  },
+  "first_name": "Murugan",
+  "last_name": "",
+  "mobile": "",
+  "email": "amurugan2893@gmail.com",
+  "password": "f28215d02497d3a0b4e6cb4f2f160b57:ixNAeJyzlOYMdJcSkYb2dF5YpnbrfF0N",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "EMAIL",
+  "user_oauth_id": "",
+  "email_verify_code": "1111",
+  "email_verify": false,
+  "otp": "1111",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667634920964"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667634920976"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667634920976"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63661708e3e193bc6307af4c"
+  },
+  "first_name": "Praveen",
+  "last_name": "",
+  "mobile": "9878896212",
+  "email": "",
+  "password": "",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "MOBILE",
+  "user_oauth_id": "",
+  "email_verify_code": "",
+  "email_verify": false,
+  "otp": "1111",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667634952783"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667634952785"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667634952785"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63661b38cbe46b3a12cbdd7a"
+  },
+  "first_name": "Praveen",
+  "last_name": "",
+  "mobile": "9878826212",
+  "email": "",
+  "password": "",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "MOBILE",
+  "user_oauth_id": "",
+  "email_verify_code": "",
+  "email_verify": false,
+  "otp": "1111",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667636024092"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667636024102"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667636024102"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63661b7e1f4c978e2f2f9c50"
+  },
+  "first_name": "Murugan",
+  "last_name": "",
+  "mobile": "",
+  "email": "amurugan2793@gmail.com",
+  "password": "722b7988ee8f8aad0fc138b125c28bd8:b4VYshMZZvPGlEqnPjzAXLym7OYUp172",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "EMAIL",
+  "user_oauth_id": "",
+  "email_verify_code": "1111",
+  "email_verify": false,
+  "otp": "1111",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667636094463"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667636094474"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667636094474"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63661b931f4c978e2f2f9c59"
+  },
+  "first_name": "afassaf",
+  "last_name": "",
+  "mobile": "",
+  "email": "asdfas53@gmail.com",
+  "password": "",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "SOCIAL_MEDIA",
+  "user_oauth_id": "dsafa@gmail.com",
+  "email_verify_code": "",
+  "email_verify": false,
+  "otp": "",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667636115492"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667636115494"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667636115494"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63662fcb77f698db3134a16b"
+  },
+  "first_name": "afassaf",
+  "last_name": "",
+  "mobile": "",
+  "email": "asdfas53@gmail.com",
+  "password": "",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "SOCIAL_MEDIA",
+  "user_oauth_id": "dsafa@gmail.com",
+  "email_verify_code": "",
+  "email_verify": false,
+  "otp": "",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667641291405"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667641291420"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667641291420"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6366301275f290865243f53c"
+  },
+  "first_name": "afassaf",
+  "last_name": "",
+  "mobile": "",
+  "email": "asdfas53@gmail.com",
+  "password": "",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "SOCIAL_MEDIA",
+  "user_oauth_id": "dsafa@gmail.com",
+  "email_verify_code": "",
+  "email_verify": false,
+  "otp": "",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667641362883"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667641362893"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667641362893"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6368ad7e259234691af54a80"
+  },
+  "first_name": "Murugan",
+  "last_name": "",
+  "mobile": "",
+  "email": "amurugan2693@gmail.com",
+  "password": "525f5d6d116b5313fea9c5bdbdf28cf6:JztXYlVrTKBwtynTYu8o63dIC7A2quOU",
+  "profile_image": "",
+  "user_role": "user",
+  "bio": "",
+  "gender": "",
+  "fitness_level": "",
+  "my_teams": [],
+  "fav_venues": [],
+  "fav_shops": [],
+  "fav_academics": [],
+  "user_oauth_provider": "EMAIL",
+  "user_oauth_id": "",
+  "email_verify_code": "1111",
+  "email_verify": false,
+  "otp": "1111",
+  "otp_verify": false,
+  "status": "Y",
+  "address": [],
+  "dob": {
+    "$date": {
+      "$numberLong": "1667804542753"
+    }
+  },
+  "my_sports": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667804542765"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667804542765"
+    }
+  },
+  "__v": 0
+}]

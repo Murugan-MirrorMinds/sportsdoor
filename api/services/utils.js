@@ -40,6 +40,7 @@ const isAuth = (req, res, next) => {
       } else {
         req.user = decode;
         req.userId = decode._id;
+        req.userRole = decode.user_role;
         next();
       }
     });
@@ -53,7 +54,7 @@ const isAdmin = (req, res, next) => {
     if (user.user_role === 'admin') {
       req.user = user;
       req.userId = user._id;
-      req.role = 'admin';
+      req.userRole = 'admin';
       next();
       return;
     } 

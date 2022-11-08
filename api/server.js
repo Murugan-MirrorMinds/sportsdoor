@@ -19,7 +19,7 @@ const {connectDB} = require('./config/db');
 connectDB();
  
 
-app.use('/resources', express.static(__dirname + '/uploads'));
+app.use('/resources', express.static(config.UPLOAD_DIR));
 // file upload
 app.use(fileUpload({createParentPath:true}));
 
@@ -29,7 +29,7 @@ app.use(helmet());
 app.use(cookieParser());
 // parse incoming requests
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -22,5 +22,5 @@ module.exports = {
     POST_MAX_SIZE: 512, //MB
     UPLOAD_MAX_FILE_SIZE: 512, //MB
     PROJECT_DIR: __dirname,
-    UPLOAD_DIR: __dirname + '/uploads',
+    UPLOAD_DIR: base_url + '/uploads',
 };
